@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.a210.myapplication.LonginActivity"
+    android:background="#F5D08A"
+
+    >
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/icon"
+        android:id="@+id/iconMain"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iconMain"
+        android:text="TRAVEL"
+        android:layout_centerInParent="true"
+        android:textSize="30dp"
+        android:textColor="#000000"
+        android:id="@+id/mainText"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/mainText"
+        android:hint="ID를 입력해주세요."
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:id="@+id/idGet"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/idGet"
+        android:hint="PW를 입력해주세요."
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:id="@+id/pwGet"
+        />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="ID 저장"
+        android:layout_alignLeft="@id/pwGet"
+        android:layout_below="@id/pwGet"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        android:id="@+id/rememberID"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rememberID"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:id="@+id/lin1"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그인"
+            android:layout_centerInParent="true"
+            android:id="@+id/login"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:layout_centerInParent="true"
+            android:id="@+id/signUp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="id/pw 찾기"
+            android:layout_centerInParent="true"
+            android:id="@+id/searchId"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

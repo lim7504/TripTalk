@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".Footer"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+
+        android:id="@+id/lin1"
+        android:orientation="horizontal"
+        android:background="#8B4513"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/home"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
+            android:id="@+id/home"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/giopen"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
+            android:id="@+id/giopence"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/click"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
+            android:id="@+id/finger"
+            android:layout_marginLeft="4dp"
+            /><ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bigdata"
+        android:src="@drawable/bigdata"
+        android:scaleType="centerInside"
+        android:background="#8B4513"
+        android:layout_weight="1"
+
+        android:layout_marginLeft="4dp"
+        /><ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/search"
+        android:src="@drawable/q"
+        android:scaleType="centerInside"
+        android:background="#8B4513"
+        android:layout_weight="1"
+
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+
+        android:id="@+id/lin2"
+        android:orientation="horizontal"
+        android:background="#8B4513"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:visibility="gone"
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/home"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
+            android:id="@+id/home_dap"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/giopen"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
+            android:id="@+id/map_dap"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/click"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
+            android:id="@+id/finger_dap"
+            android:layout_marginLeft="4dp"
+            /><ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/blog"
+        android:id="@+id/blog"
+        android:scaleType="centerInside"
+        android:background="#8B4513"
+        android:layout_weight="1"
+
+        android:layout_marginLeft="4dp"
+        /><ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/answer"
+        android:src="@drawable/a"
+        android:scaleType="centerInside"
+        android:background="#8B4513"
+        android:layout_weight="1"
+
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        />
+    </LinearLayout>
+
+</FrameLayout>

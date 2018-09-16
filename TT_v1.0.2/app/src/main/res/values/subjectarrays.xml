@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subject">
+        <item>항목 구분</item>
+        <item>관광지</item>
+        <item>문화시설</item>
+        <item>행사/공연/축제</item>
+        <item>여행코스</item>
+        <item>레포츠</item>
+        <item>숙박</item>
+        <item>쇼핑</item>
+        <item>음식점</item>
+    </string-array>
+</resources>

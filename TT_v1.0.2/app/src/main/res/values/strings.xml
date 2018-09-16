@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">TripTalk</string>
+    <string name="mainTitle1">빅데이터추천 TOP10\n조용한 여행지</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello">Hello World, NMapViewer!</string>
+    <string name="str_done">완료</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="y_photopicker_image_select_title">Select Image</string>
+    <string name="y_photopicker_delete">Delete</string>
+    <string name="y_photopicker_effect">Crop</string>
+    <string name="y_photopicker_done">Done</string>
+    <string name="y_photopicker_done_with_count">Done(%1$d/%2$d)</string>
+    <string name="y_photopicker_image_index">%1$d/%2$d</string>
+    <string name="y_photopicker_undo">Cancel</string>
+    <string name="y_photopicker_deleted_a_photo">This photo has been deleted.</string>
+    <string name="y_photopicker_confirm_to_delete">Delete?</string>
+    <string name="y_photopicker_yes">Yes</string>
+    <string name="y_photopicker_cancel">No</string>
+    <string name="y_photopicker_all_image">All</string>
+    <string name="y_photopicker_over_max_count_tips">You can select up to %1$d</string>
+    <string name="y_photopicker_image_count">%1$d</string>
+
+    <string name="url_MphotoUpload">http://lim7504.iptime.org:8080/TripTalkWebServer/ttBlogImageUpload.jsp</string>
+    <string name="url_Server">http://lim7504.iptime.org:8080/TripTalkWebServer</string>
+</resources>
