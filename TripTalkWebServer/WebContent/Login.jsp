@@ -26,7 +26,7 @@
 		USER_PASSWORD = request.getParameter("USER_PASSWORD");
 		USER_TOKEN = request.getParameter("USER_TOKEN");
 	
-	    sql = "SELECT [USER_ID], [USER_PASSWORD], [USER_TOKEN], [USER_NICKNAME], [USER_AGE], [USER_SEX], [USER_FUN] FROM [TRIPTALK_USER] WHERE [USER_ID] = '{0}' AND [USER_PASSWORD] = '{1}'";
+	    sql = "SELECT [USER_ID], [USER_PASSWORD], [USER_TOKEN], [USER_NICKNAME], [USER_AGE], [USER_SEX], [USER_ADDRESS], [USER_FUN] FROM [TRIPTALK_USER] WHERE [USER_ID] = '{0}' AND [USER_PASSWORD] = '{1}'";
 	    
 	    sql = sql.replace("{0}", USER_ID);
 	    sql = sql.replace("{1}", USER_PASSWORD);
@@ -57,6 +57,7 @@
 	    	object.put("USER_NICKNAME", rs.getString("USER_NICKNAME"));
 	        object.put("USER_AGE", rs.getString("USER_AGE"));
 	        object.put("USER_SEX", rs.getString("USER_SEX"));
+	        object.put("USER_ADDRESS", rs.getString("USER_ADDRESS"));
 	        object.put("USER_FUN", rs.getString("USER_FUN"));
 	        jsonArry.add(object);
 	        
