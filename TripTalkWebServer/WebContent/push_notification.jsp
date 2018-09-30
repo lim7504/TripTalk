@@ -19,7 +19,7 @@
     Connection conn = null; 
     Statement stmt = null; 
     ResultSet rs = null;
-    
+     
     String msg = request.getParameter("message");;
     
     if(msg==null || msg.equals("")){

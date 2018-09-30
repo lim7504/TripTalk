@@ -35,7 +35,8 @@
 	String QUESTION_CONTENS = null;
 	String QUESTION_AREA = null;
 	String QUESTION_SUBJECT = null;
-
+	String IS_QUESTION = null;
+	
 	request.setCharacterEncoding("utf-8");
 
 	try {
@@ -51,7 +52,7 @@
 	QUESTION_CONTENS = request.getParameter("QUESTION_CONTENS");
 	QUESTION_AREA = request.getParameter("QUESTION_AREA");
 	QUESTION_SUBJECT = request.getParameter("QUESTION_SUBJECT");
-
+	IS_QUESTION =  request.getParameter("IS_QUESTION");
 
 
 	// 토큰값 전달시 쿼리문 입력할곳임
@@ -78,7 +79,7 @@
 	
 	
     while(rs.next()){ 	
-    	MongoDB_Insert.FingerInsert(rs.getInt("USER_AGE"),rs.getString("USER_SEX"),rs.getString("USER_FUN"),rs.getString("TENDENCY1"),rs.getString("TENDENCY2"),rs.getString("TENDENCY3"), QUESTION_AREA);
+    	MongoDB_Insert.FingerInsert(rs.getInt("USER_AGE"),rs.getString("USER_SEX"),rs.getString("USER_FUN"),QUESTION_AREA, rs.getString("TENDENCY1"),rs.getString("TENDENCY2"),rs.getString("TENDENCY3"));
     }
 	
 		 
