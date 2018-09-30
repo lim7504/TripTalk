@@ -70,7 +70,7 @@
 	
 	
 	
-  	sql = "select [USER_AGE], [USER_SEX], [USER_FUN] from TRIPTALK_USER WHERE USER_ID = '{0}'";
+  	sql = "select [USER_AGE], [USER_SEX], [USER_FUN], [TENDENCY1], [TENDENCY2], [TENDENCY3] from TRIPTALK_USER WHERE USER_ID = '{0}'";
    	sql = sql.replace("{0}", QUESTION_USER_ID);
 		
  	stmt = conn.createStatement(); 
@@ -78,7 +78,7 @@
 	
 	
     while(rs.next()){ 	
-    	MongoDB_Insert.FingerInsert(rs.getInt("USER_AGE"),rs.getString("USER_SEX"),rs.getString("USER_FUN"), QUESTION_AREA);
+    	MongoDB_Insert.FingerInsert(rs.getInt("USER_AGE"),rs.getString("USER_SEX"),rs.getString("USER_FUN"),rs.getString("TENDENCY1"),rs.getString("TENDENCY2"),rs.getString("TENDENCY3"), QUESTION_AREA);
     }
 	
 		 

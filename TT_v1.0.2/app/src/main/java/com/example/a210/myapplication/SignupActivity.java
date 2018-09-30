@@ -50,8 +50,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            if(successFlag.contains("Success") == true)
-                Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
+            if(successFlag.contains("Success") == true) {
+                //Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(getApplicationContext(), TendencyActivity.class);
+                it.putExtra("sep","quest");
+                startActivity(it);
+                finish();
+            }
             else
                 Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
 
@@ -124,6 +129,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                             successFlag = TomcatConnector(urlString);
 
+
+                            UserInfomation.User_ID = editTextSignup_ID.getText().toString();
+                            UserInfomation.User_NickName = editTextSignup_NickName.getText().toString();
+                            UserInfomation.User_Age = Integer.parseInt(editTextSignup_Age.getText().toString());
+                            UserInfomation.User_Sex = sex.toString();
+                            UserInfomation.User_Fun = spinnerSignup_Fun.getSelectedItem().toString();
+
                         }catch (Exception e) {
                             successFlag = "Fail";
                         }
@@ -131,7 +143,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
                 th.start();
-                finish();
+                //finish();
                 break;
             case R.id.radioMan :
                 sex = "남자";

@@ -12,5 +12,8 @@ public  class UserInfomation {
     static String SearchSubJect;
     static String SearchArea;
     static String Wait_ID;
+    static String Tendency1;
+    static String Tendency2;
+    static String Tendency3;
 
 }

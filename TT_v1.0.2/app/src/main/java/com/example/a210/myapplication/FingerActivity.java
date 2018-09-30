@@ -156,6 +156,30 @@ public class FingerActivity extends AppCompatActivity {
                     return;
                 }
 
+                Thread th = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+
+                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionRegist.jsp?";
+                            urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
+                            urlString += "&QUESTION_CONTENS=" + etcEditText.getText().toString();
+                            urlString += "&QUESTION_AREA=" + resultText.getText().toString();
+                            urlString += "&QUESTION_SUBJECT=" + subjectSpinner.getSelectedItem().toString();
+                            urlString += "&ISQUESTION=Y";
+
+                            successFlag = TomcatConnector(urlString);
+
+                        }catch (Exception e) {
+                            successFlag = "Fail";
+                        }
+                        handler.sendEmptyMessage(0);
+                    }
+                });
+                th.start();
+
+
                 UserInfomation.SearchSubJect =  subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
                 UserInfomation.SearchArea = resultText.getText().toString();
 

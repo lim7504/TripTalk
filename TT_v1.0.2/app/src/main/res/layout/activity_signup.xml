@@ -78,28 +78,28 @@
                 />
 
             <RadioGroup
-                android:layout_width="280dp"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:orientation="horizontal"
-                >
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="남자"
-                    android:id="@+id/radioMan"
-                    />
+                android:layout_weight="1"
+                android:text="남자"
+                android:id="@+id/radioMan"
+                />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="여자"
-                    android:id="@+id/radioWoman"
-                    />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="여자"
+                android:id="@+id/radioWoman"
+                />
             </RadioGroup>
 
             <LinearLayout

@@ -45,6 +45,7 @@
             android:name=".FingerActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".SignupActivity" />
+        <activity android:name=".TendencyActivity" />
         <activity android:name=".BlogActivity" />
         <activity android:name=".PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
