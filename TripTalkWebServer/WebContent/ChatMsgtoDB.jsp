@@ -1,9 +1,10 @@
-<%@page import="java.io.PrintWriter"%>
+﻿<%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.net.URLEncoder"%>
 <%
 	/*
 	채팅 방에 채팅 메세지를 받
@@ -44,13 +45,15 @@
 	CHAT_CREATE_DATE = request.getParameter("CREATE_DATE");
 	USER_TYPE = request.getParameter("USER_TYPE");
 	MESSAGE_TYPE = request.getParameter("MESSAGE_TYPE");
+	
 	System.out.println("MESSAGE_TYPE:"+MESSAGE_TYPE);
+	
 	if (ROOM_ID == null || ROOM_ID.isEmpty() || ROOM_ID.equals("")) {
 		out.println("Watting");
 	} else {
 		try {
 			String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-
+			//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 			conn = DriverManager.getConnection(url);
 
 		} catch (Exception e) {
@@ -152,8 +155,10 @@
 				return;
 			}
 
-			response.sendRedirect("FCMManager.jsp?MESSAGE_ID=" + MESSAGE_ID + "&" + "TARGET=" + TARGET_USER
-					+ "&" + "CHAT_MESSAGE=" + CHAT_MESSAGE);
+			CHAT_MESSAGE = URLEncoder.encode(CHAT_MESSAGE,"UTF-8");
+			
+			response.sendRedirect("FCMManager.jsp?FCM_TYPE=CHAT_MESSAGE" + "&"+ "MESSAGE_ID=" + MESSAGE_ID + "&" + "TARGET=" + TARGET_USER
+					+ "&" + "MESSAGE=" + CHAT_MESSAGE);
 
 			out.println("ACK");
 
