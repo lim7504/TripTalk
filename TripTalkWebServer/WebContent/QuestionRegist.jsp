@@ -1,4 +1,4 @@
-﻿<%@page import="java.net.URLDecoder"%>
+<%@page import="java.net.URLDecoder"%>
 <%@page import="Servlet.MongoDB_Insert"%>
 <%@page import="Servlet.MongoDB_Sample"%>
 <%@page import="java.util.List"%>
@@ -10,6 +10,8 @@
 <%@ page import="java.util.*"%>
 <%@page import="java.net.URLEncoder"%>
 <%@ page import="com.google.android.gcm.server.*"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="org.json.simple.JSONArray"%>
 <%@ page language="java" contentType="text/html;  charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -38,8 +40,8 @@
 	request.setCharacterEncoding("utf-8");
 
 	try {
-		String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-		//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+	//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+		String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 		conn = DriverManager.getConnection(url);
 		out.println("MSSQL Success");
 	} catch (Exception e) {
@@ -87,7 +89,7 @@
 	}
 	*/
 	pstmt.executeUpdate();
-	
+    
   	sql = "select [USER_AGE], [USER_SEX], [USER_FUN] from TRIPTALK_USER WHERE USER_ID = '{0}'";
    	sql = sql.replace("{0}", QUESTION_USER_ID);
 		

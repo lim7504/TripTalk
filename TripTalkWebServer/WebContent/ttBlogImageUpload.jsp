@@ -1,6 +1,6 @@
-<%@page import="Servlet.ConnectDB"%>
-<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
-<%@page import="com.oreilly.servlet.MultipartRequest"%>
+﻿<%@page import="Servlet.ConnectDB"%>
+<%@page import="oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="oreilly.servlet.MultipartRequest"%>
 <%@ page import = "java.io.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

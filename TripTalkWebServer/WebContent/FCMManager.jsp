@@ -1,4 +1,4 @@
-﻿<%@page import="java.net.URLDecoder"%>
+<%@page import="java.net.URLDecoder"%>
 <%@page import="java.io.UTFDataFormatException"%>
 <%@page import="org.omg.PortableInterceptor.USER_EXCEPTION"%>
 <%@ page import="java.sql.*"%>
@@ -66,8 +66,8 @@
 		}
 		
 		try {
-			String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-			//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+			//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+				String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 			
 			conn = DriverManager.getConnection(url);
 		} catch (Exception e) {

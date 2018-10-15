@@ -1,4 +1,4 @@
-﻿<%@page import="java.io.PrintWriter"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -51,9 +51,15 @@
 	if (ROOM_ID == null || ROOM_ID.isEmpty() || ROOM_ID.equals("")) {
 		out.println("Watting");
 	} else {
+		
+		if(MESSAGE_TYPE.equals("4"))
+		{
+			return ;
+		}
+		
 		try {
-			String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-			//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+			//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+			String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 			conn = DriverManager.getConnection(url);
 
 		} catch (Exception e) {
