@@ -33,8 +33,8 @@
 		out.println(REQUEST_USER_ID);
 
 		try {
-	//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-	String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+	String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+	//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 	conn = DriverManager.getConnection(url);
 	out.println("MSSQL Success");
 		} catch (Exception e) {

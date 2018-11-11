@@ -6,9 +6,6 @@
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%
-	//¾ÆÁ÷ »ç¿ëÇÏÁö ¾Ê´Â JSP
-	//ÃßÈÄ Ã¤ÆÃ ¹æ »ý¼º½Ã »ç¿ëÇÒ ¿ëµµ
-
 	request.setCharacterEncoding("UTF-8");
 
 	Connection conn = null;
@@ -32,8 +29,8 @@
 		out.println(REQUEST_USER_ID);
 
 		try {
-			//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-			String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+			String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+			//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 			conn = DriverManager.getConnection(url);
 			out.println("MSSQL Success");
 		} catch (Exception e) {
@@ -44,13 +41,13 @@
 		if (conn != null) {
 			
 			String sql="";
-			//String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);    //¸Þ½ÃÁö °íÀ¯ ID
-			// ÅäÅ«°ª Àü´Þ½Ã Äõ¸®¹® ÀÔ·ÂÇÒ°÷ÀÓ
+			//String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);    //ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID
+			// ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½ï¿½Þ½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ò°ï¿½ï¿½ï¿½
 			sql = "DELETE FROM [TRIPTALK_ROOM] WHERE ROOM_NAME = '{0}' ";
 			sql = sql.replace("{0}", ROOM_NAME);
 			pstmt = conn.prepareStatement(sql);
 
-			if(pstmt.executeUpdate() != 0)//Äõ¸®¸¦ ½ÇÇà ÇÏ¶ó´Â ¸í·É¾î 
+			if(pstmt.executeUpdate() != 0)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¶ï¿½ï¿½ ï¿½ï¿½É¾ï¿½ 
 			{
 	    		sql = "UPDATE [TRIPTALK_WATING] SET [IS_MATCHING] = 0 WHERE [WATING_ID] = '{0}'";
 

@@ -29,8 +29,8 @@
     msg = new String(msg.getBytes("UTF-8"), "UTF-8");   //메시지 한글깨짐 처리
     
     try {
-    	//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+    	String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+		//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
         conn = DriverManager.getConnection(url);
         stmt = conn.createStatement();            
         String sql = "select USER_TOKEN from TRIPTALK_USER WHERE USER_TOKEN <> 'null'";
