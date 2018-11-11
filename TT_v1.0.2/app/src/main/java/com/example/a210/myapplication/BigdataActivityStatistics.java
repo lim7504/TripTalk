@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -28,42 +29,27 @@ public class BigdataActivityStatistics extends AppCompatActivity{
 
         bigdataList = (ListView)findViewById(R.id.bigdataList);
         itGet = getIntent();
-        Integer a= itGet.getIntExtra("SELECT_INDEX",0);
+        String  jsonString = itGet.getStringExtra("str").toString();
 
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try
-                {
-                    String jsonString;
-                    String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/MongoDB_Select.jsp?";
-                    urlString += "SELECT_INDEX=" + itGet.getIntExtra("SELECT_INDEX",0);
-                    urlString += "&USER_AGE=" + UserInfomation.User_Age.toString();
-                    urlString += "&USER_SEX=" + UserInfomation.User_Sex.toString();
-                    urlString += "&USER_FUN=" + UserInfomation.User_Fun.toString();
-                    jsonString = TomcatConnector(urlString);
+        try
+        {
+            JSONArray arr = new JSONArray(jsonString);
 
-                    JSONArray arr = new JSONArray(jsonString);
+            for (int i = 0; i < arr.length(); i++)
+            {
+                if (i == 10)
+                    break;
 
-                    for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
 
-                        if(i == 10)
-                            break;
-
-                        JSONObject obj = arr.getJSONObject(i);
-
-                        data.add(data.size() + 1 + "위 [" + obj.get("QUESTION_AREA").toString() + "] " + obj.get("COUNT").toString() + "회");
-                    }
-                }
-                catch (Exception e)
-                {
-                }
+                data.add(data.size() + 1 + "위 [" + obj.get("QUESTION_AREA").toString() + "] " + obj.get("COUNT").toString() + "회");
             }
-        });
-        th.start();
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        final ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,data);
+        final ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
         bigdataList.setAdapter(adapter);
 
 
@@ -94,44 +80,5 @@ public class BigdataActivityStatistics extends AppCompatActivity{
                 transaction.commit();
                 break;
         }
-    }
-
-    public String TomcatConnector(String urlString) {
-
-        StringBuilder html = new StringBuilder();
-        try {
-            URL url = new URL(urlString);
-
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-
-            if(conn != null)
-            {
-                conn.setConnectTimeout(3000);
-                conn.setUseCaches(false);
-                if(conn.getResponseCode() == HttpURLConnection.HTTP_OK)
-                {
-                    BufferedReader br =  new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
-
-                    while (true)
-                    {
-                        String line = br.readLine();
-                        if(line == null) break;
-                        html.append(line+"\n");
-
-                    }
-                    br.close();
-                }
-                conn.disconnect();
-
-            }
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return html.toString();
-
     }
 }

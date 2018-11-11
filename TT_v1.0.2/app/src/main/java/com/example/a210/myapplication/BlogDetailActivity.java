@@ -2,6 +2,8 @@ package com.example.a210.myapplication;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +30,24 @@ public class BlogDetailActivity extends AppCompatActivity {
     Intent it, getIt;
     JSONArray jArray;
     TextView detailTitle, detailWriter, detailDate, detailContent;
+    String successFlag;
     LinearLayout blogLin;
+    String blogId = "";
+
+    Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            //if(successFlag.contains("Success") == true)
+            //Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
+            //else
+            //Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
+
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +61,7 @@ public class BlogDetailActivity extends AppCompatActivity {
         blogLin = (LinearLayout)findViewById(R.id.blogLin);
 
         getIt = getIntent();
-        String blogId = getIt.getStringExtra("blogId");
+        blogId = getIt.getStringExtra("blogId");
 
         try {
             String result = new BlogDetailSearch().execute(blogId).get();
@@ -82,6 +101,41 @@ public class BlogDetailActivity extends AppCompatActivity {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+
+
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/BlogClickRegist.jsp?";
+                    urlString += "USER_ID=" + UserInfomation.User_ID;
+                    urlString += "&BLOG_ID=" + blogId.toString();
+                    successFlag = TomcatConnector(urlString);
+
+                }catch (Exception e) {
+                    successFlag = "Fail";
+                }
+                handler.sendEmptyMessage(0);
+            }
+        });
+        th.start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     class BlogDetailSearch extends AsyncTask<String, Void, String> {
@@ -122,4 +176,41 @@ public class BlogDetailActivity extends AppCompatActivity {
             return receiveMsg;
         }
     }
+
+    public String TomcatConnector(String urlString) {
+
+        StringBuilder html = new StringBuilder();
+        try {
+            URL url = new URL(urlString);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            if (conn != null) {
+                conn.setConnectTimeout(3000);
+                conn.setUseCaches(false);
+
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br =  new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
+
+                    while (true)
+                    {
+                        String line = br.readLine();
+                        if(line == null) break;
+                        html.append(line+"\n");
+
+                    }
+                    br.close();
+                }
+                conn.disconnect();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return html.toString();
+
+    }
 }
+
+

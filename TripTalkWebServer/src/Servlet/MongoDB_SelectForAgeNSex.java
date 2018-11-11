@@ -107,7 +107,7 @@ public class MongoDB_SelectForAgeNSex
 			Integer ageFirst = (user_age / 10) * 10;
 			Integer ageEnd = (user_age / 10) * 10 + 10;
 			
-			this.fingerTotal = (List<Document>) collFinger.find(and(and(gte("USER_AGE", ageFirst),lt("USER_AGE", ageEnd)),eq("USER_SEX", user_sex))).into(new ArrayList<Document>());
+			this.fingerTotal = (List<Document>) collFinger.find(and(and(and(gte("USER_AGE", ageFirst),lt("USER_AGE", ageEnd)),eq("USER_SEX", user_sex),eq("LOG_CODE", "AREA")))).into(new ArrayList<Document>());
 		}
 		
 		private void SetlistModelParsingNDistinct()

@@ -41,6 +41,7 @@
         <activity android:name=".BigdataActivity" />
         <activity android:name=".AreaActivity" />
         <activity android:name=".BigdataActivityStatistics" />
+        <activity android:name=".BigdataActivityStatisticsForString" />
         <activity
             android:name=".FingerActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />

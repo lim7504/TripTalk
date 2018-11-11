@@ -119,7 +119,7 @@ public class MongoDB_SelectForAllCondition
 			this.mongo = new MongoClient("lim7504.iptime.org", 27017);
 			this.db =  mongo.getDatabase("TRIPTALK");	
 			this.collFinger = db.getCollection("FINGER");
-			this.fingerTotal = (List<Document>) collFinger.find().into(new ArrayList<Document>());
+			this.fingerTotal = (List<Document>) collFinger.find(eq("LOG_CODE", "AREA")).into(new ArrayList<Document>());
 		}
 		
 		private void SetlistModelParsingNDistinct()

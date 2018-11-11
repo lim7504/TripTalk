@@ -2,6 +2,8 @@ package com.example.a210.myapplication;
 
 import android.content.Intent;
 import android.media.Image;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +12,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity{
     ListView mainList;
     Intent it,itGet;
+    String blogId;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +39,12 @@ public class MainActivity extends AppCompatActivity{
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String blogId = adapter.getBlogId(i);
+
+                 blogId = adapter.getBlogId(i);
+
+
+
+
                 Intent it = new Intent(getApplicationContext(),BlogDetailActivity.class);
                 it.putExtra("blogId",blogId);
                 startActivity(it);
@@ -80,4 +96,6 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
     }
+
+
 }

@@ -166,6 +166,7 @@ public class FingerActivity extends AppCompatActivity {
                             urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
                             urlString += "&QUESTION_CONTENS=" + etcEditText.getText().toString();
                             urlString += "&QUESTION_AREA=" + resultText.getText().toString();
+                            urlString += "&QUESTION_AREA_DETAIL=" + "TEST".toString();
                             urlString += "&QUESTION_SUBJECT=" + subjectSpinner.getSelectedItem().toString();
                             urlString += "&ISQUESTION=Y";
 
@@ -178,6 +179,12 @@ public class FingerActivity extends AppCompatActivity {
                     }
                 });
                 th.start();
+
+                try {
+                    th.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
 
                 UserInfomation.SearchSubJect =  subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
