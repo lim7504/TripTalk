@@ -43,7 +43,8 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
  	}else
  	{
 		try {
-			String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+			//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+			String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
 			
 			conn = DriverManager.getConnection(url);
 			
