@@ -1,8 +1,11 @@
 package com.example.a210.myapplication;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,31 +15,49 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
-public class FingerActivity extends AppCompatActivity {
+public class FingerActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
+    private Geocoder geocoder;
+    private Button button,finalSelectBtn;
+    private EditText editText;
 
     ListView selectList;
-    TextView resultText;
-    Button selectButton;
+    TextView resultText,resultAddress;
+    Button selectButton,btnSearch,btnFinger;
     Intent it,itGet;
     EditText etcEditText;
     Spinner subjectSpinner;
     ArrayAdapter subjectAdapter;
+    RelativeLayout searchAddress;
+    Fragment map;
     public static TextView itGetTextView;
     String key3="ED57FE12-D1BD-30C1-83B1-82C3FFB9AF92&domain=http://www.test.com&";
     String str = "first";
@@ -70,12 +91,19 @@ public class FingerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finger);
 
+        editText = (EditText) findViewById(R.id.addressEdt);
+        button=(Button)findViewById(R.id.addressBtn);
+        finalSelectBtn = (Button)findViewById(R.id.finalSelectBtn);
         selectList = (ListView)findViewById(R.id.selectList);
         resultText = (TextView)findViewById(R.id.resultText);
+        resultAddress = (TextView)findViewById(R.id.resultAddress);
         selectButton = (Button)findViewById(R.id.selectButton);
         subjectSpinner = (Spinner)findViewById(R.id.subjectSpinner);
         etcEditText = (EditText)findViewById(R.id.etcEditText);
         itGetTextView = (TextView)findViewById(R.id.itGetTextView);
+        btnSearch = (Button)findViewById(R.id.btnSearch);
+        btnFinger = (Button)findViewById(R.id.btnFinger);
+        searchAddress = (RelativeLayout)findViewById(R.id.searchAddress);
         itGet = getIntent();
 
         subjectAdapter = ArrayAdapter.createFromResource(this, R.array.subject, android.R.layout.simple_spinner_dropdown_item);
@@ -142,56 +170,71 @@ public class FingerActivity extends AppCompatActivity {
             }
         });
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectList.setVisibility(View.GONE);
+                resultText.setText("");
+                searchAddress.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnFinger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectList.setVisibility(View.VISIBLE);
+                resultAddress.setText("");
+                editText.setText("");
+                searchAddress.setVisibility(View.GONE);
+            }
+        });
+
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String addressSplit = "";
+                String addressArray[] = {};
+                String dong = "";
+
                 if(subjectSpinner.getSelectedItemPosition() == 0) {
                     Toast.makeText(getApplicationContext(),"항목 구분을 선택해주세요",Toast.LENGTH_LONG).show();
                     return;
                 } else if(etcEditText.getText().toString().equals("") || etcEditText.getText() == null) {
                     Toast.makeText(getApplicationContext(),"기타 사항을 입력해주세요",Toast.LENGTH_LONG).show();
                     return;
-                } else if(resultText.getText().equals("테스트용 텍스트")) {
+                } else if(resultText.getText().equals("") && resultAddress.getText().equals("")) {
                     Toast.makeText(getApplicationContext(),"지역을 선택해주세요.",Toast.LENGTH_LONG).show();
                     return;
                 }
-
-                Thread th = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        try {
-
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionRegist.jsp?";
-                            urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
-                            urlString += "&QUESTION_CONTENS=" + etcEditText.getText().toString();
-                            urlString += "&QUESTION_AREA=" + resultText.getText().toString();
-                            urlString += "&QUESTION_AREA_DETAIL=" + "TEST".toString();
-                            urlString += "&QUESTION_SUBJECT=" + subjectSpinner.getSelectedItem().toString();
-                            urlString += "&ISQUESTION=Y";
-
-                            successFlag = TomcatConnector(urlString);
-
-                        }catch (Exception e) {
-                            successFlag = "Fail";
-                        }
-                        handler.sendEmptyMessage(0);
-                    }
-                });
-                th.start();
-
-                try {
-                    th.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
 
                 UserInfomation.SearchSubJect =  subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
                 UserInfomation.SearchArea = resultText.getText().toString();
 
                 it = new Intent(getApplicationContext(),ChatActivity.class);
-                it.putExtra("Location",resultText.getText());
+                if(resultAddress.getText().equals("")) {
+                    it.putExtra("Location",resultText.getText());
+                } else if(resultText.getText().equals("")) {
+                    addressSplit = resultAddress.getText().toString().substring(5,resultAddress.getText().toString().length());
+                    addressArray = addressSplit.split(" ");
+                    if(addressArray.length <= 2)
+                        it.putExtra("Location",resultAddress.getText());
+                    else if(addressArray.length > 2) {
+                        for(int i = 2; i <= addressArray.length; i++) {
+                            if(addressArray[i].substring(addressArray[i].length()).equals("동")) {
+                                for(int j = 0; j <= i; j++) {
+                                    dong = dong + addressArray[j] + " ";
+                                }
+                                dong = dong.substring(0,dong.length());
+                            }
+                        }
+                    }
+                }
+
                 if(itGetTextView.getText().toString().equals("dap"))
                     it.putExtra("sep","dap");
                 else if(itGetTextView.getText().toString().equals("quest"))
@@ -375,6 +418,114 @@ public class FingerActivity extends AppCompatActivity {
         }
 
         return html.toString();
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        geocoder = new Geocoder(this);
+
+        // 맵 터치 이벤트 구현 //
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+            @Override
+            public void onMapClick(LatLng point) {
+                MarkerOptions mOptions = new MarkerOptions();
+                // 마커 타이틀
+                mOptions.title("마커 좌표");
+                Double latitude = point.latitude; // 위도
+                Double longitude = point.longitude; // 경도
+                // 마커의 스니펫(간단한 텍스트) 설정
+                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+                // LatLng: 위도 경도 쌍을 나타냄
+                mOptions.position(new LatLng(latitude, longitude));
+            }
+        });
+        ////////////////////
+
+        // 버튼 이벤트
+        button.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String addressSplit = "";
+                String addressArray[] = {};
+                String dong = "";
+                int length = 0;
+
+                String str=editText.getText().toString();
+                List<Address> addressList = null;
+                try {
+                    // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
+                    addressList = geocoder.getFromLocationName(
+                            str, // 주소
+                            20); // 최대 검색 결과 개수
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (addressList.size() == 0){
+                    resultAddress.setText("검색 결과가 없습니다.");
+                    return;
+                }
+                Log.d("로그그그그ㅡ그그그극",Integer.toString(addressList.size()));
+
+                mMap.clear();
+                for(int size = 0; size < addressList.size(); size++) {
+                    System.out.println(addressList.get(size).toString());
+                    // 콤마를 기준으로 split
+                    String []splitStr = addressList.get(size).toString().split(",");
+                    String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+                    System.out.println(address);
+                    addressSplit = address.substring(5,address.length());
+                    addressArray = addressSplit.split(" ");
+                    if(addressArray.length <= 2)
+                        dong = addressSplit;
+                    else if(addressArray.length > 2) {
+                        Log.d("길이",Integer.toString(addressArray.length));
+                        for(int i = 0; i < addressArray.length; i++) {
+                            length = addressArray[i].length() - 1;
+                            if(addressArray[i].charAt(length) == '동' || addressArray[i].charAt(length) == '읍' || addressArray[i].charAt(length) == '면'
+                                    || addressArray[i].charAt(length) == '리') {
+                                Log.d("동작동작","ㅁㄴㅇㄻㄴㅇㄹ");
+                                for(int j = 0; j <= i; j++) {
+                                    dong = dong + addressArray[j] + " ";
+                                    Log.d("동이 동작하니",dong);
+                                }
+                                dong = dong.substring(0,dong.length() - 1);
+                            }
+                        }
+                        Log.d("동",dong);
+                    }
+                    resultAddress.setText(dong);
+
+                    String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
+                    String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
+                    System.out.println(latitude);
+                    System.out.println(longitude);
+
+                    // 좌표(위도, 경도) 생성
+                    LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    // 마커 생성
+                    MarkerOptions mOptions2 = new MarkerOptions();
+                    mOptions2.title("search result");
+                    mOptions2.snippet(address);
+                    mOptions2.position(point);
+                    // 마커 추가
+                    mMap.addMarker(mOptions2);
+                    // 해당 좌표로 화면 줌
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
+                }
+
+            }
+        });
+        ////////////////////
+
+        // Add a marker in Sydney and move the camera
+        LatLng sichong = new LatLng(37.5662952, 126.9779451);
+        mMap.addMarker(new MarkerOptions().position(sichong).title("서울특별시 시청"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sichong));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sichong,15));
 
     }
 }

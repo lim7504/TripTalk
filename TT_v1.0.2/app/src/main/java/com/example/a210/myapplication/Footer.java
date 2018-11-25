@@ -68,7 +68,7 @@ public class Footer extends Fragment implements  View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ImageButton home, finger, map, home_dap, finger_dap, map_dap, search, answer,blog, bigdata;
+        ImageButton home, finger, map, home_dap, finger_dap, map_dap, search, answer,blog, aiChat;
         LinearLayout lin1, lin2;
 
         View view = inflater.inflate(R.layout.fragment_footer,container,false);
@@ -82,7 +82,6 @@ public class Footer extends Fragment implements  View.OnClickListener{
         search      = (ImageButton)view.findViewById(R.id.search);
         answer      = (ImageButton)view.findViewById(R.id.answer);
         blog        = (ImageButton)view.findViewById(R.id.blog);
-        bigdata     = (ImageButton)view.findViewById(R.id.bigdata) ;
 
         String sep = getArguments().getString("sep");
 
@@ -107,7 +106,6 @@ public class Footer extends Fragment implements  View.OnClickListener{
         home_dap.setOnClickListener(this);
         map_dap.setOnClickListener(this);
         blog.setOnClickListener(this);
-        bigdata.setOnClickListener(this);
 
         return view;
     }
@@ -179,12 +177,6 @@ public class Footer extends Fragment implements  View.OnClickListener{
                     MapActivity.itGetTextView.setText("quest");
                     Log.i("뭐야", FingerActivity.itGetTextView.getText().toString());
                 }
-                break;
-            case R.id.bigdata :
-                it = new Intent(getActivity(),BigdataActivity.class);
-                it.putExtra("sep","quest");
-                startActivity(it);
-                getActivity().finish();
                 break;
         }
     }

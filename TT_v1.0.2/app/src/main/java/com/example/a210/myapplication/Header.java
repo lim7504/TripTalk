@@ -1,12 +1,22 @@
 package com.example.a210.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -17,7 +27,7 @@ import android.view.ViewGroup;
  * Use the {@link Header#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Header extends Fragment {
+public class Header extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,7 +74,50 @@ public class Header extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_header, container, false);
+        ImageButton setting;
+        final Spinner menuSpin;
+        ArrayAdapter menuAdapter;
+
+        View view = inflater.inflate(R.layout.fragment_header,container,false);
+
+        setting = (ImageButton)view.findViewById(R.id.setting);
+        menuSpin = (Spinner)view.findViewById(R.id.menuSpin);
+
+        menuAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.menu,R.layout.support_simple_spinner_dropdown_item);
+        menuSpin.setAdapter(menuAdapter);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuSpin.performClick();
+            }
+        });
+
+        menuSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            SharedPreferences prefs = getActivity().getSharedPreferences("USER", MODE_PRIVATE);
+            SharedPreferences.Editor edit;
+            Intent it = new Intent(getActivity(),LonginActivity.class);
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if(position == 1){
+                    edit =  prefs.edit();
+                    edit.putBoolean("auto", false);
+                    edit.putString("id", "");
+                    edit.putString("pass", "");
+                    edit.commit();
+                    startActivity(it);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -74,11 +127,18 @@ public class Header extends Fragment {
         }
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onClick(View view) {
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
