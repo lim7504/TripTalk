@@ -25,7 +25,7 @@
         android:id="@+id/resultText"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:text="테스트용 텍스트"
+        android:text=""
         android:gravity="center"
         android:visibility="gone"
         android:layout_centerInParent="true"
@@ -45,6 +45,76 @@
         >
 
     </Spinner>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:id="@+id/selectAdOrSch"
+        android:layout_below="@+id/header"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnSearch"
+            android:text="장소로 검색"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnFinger"
+            android:text="주소로 검색"
+            />
+
+    </LinearLayout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectAdOrSch"
+        android:layout_above="@+id/subjectSpinner"
+        android:id="@+id/searchAddress"
+        >
+
+        <EditText
+            android:id="@+id/addressEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="주소 및 장소를 검색하세요."
+            android:layout_toLeftOf="@id/addressBtn"
+            />
+
+        <Button
+            android:id="@+id/addressBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="주소 검색"
+            android:layout_alignParentRight="true"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:textSize="20dp"
+            android:id="@+id/resultAddress"
+            android:layout_below="@id/addressBtn"
+            />
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".LocationTestActivity"
+            android:layout_below="@+id/resultAddress"
+            />
+
+    </RelativeLayout>
 
     <ListView
         android:layout_width="match_parent"
@@ -52,8 +122,9 @@
         android:layout_above="@+id/subjectSpinner"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/selectAdOrSch"
         android:id="@+id/selectList"
+        android:visibility="gone"
         />
     <Button
         android:layout_width="match_parent"

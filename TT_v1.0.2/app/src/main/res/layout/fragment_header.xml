@@ -30,14 +30,25 @@
             android:textStyle="bold"
             android:textColor="#E6A55A"
             />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:text="ADMIN"
-            android:background="@drawable/custom_btn"
-            android:textColor="#E6A55A"
-            />
 
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#8B4513"
+            android:src="@drawable/settings"
+            android:scaleType="centerInside"
+            android:layout_margin="10dp"
+            android:id="@+id/setting"
+            />
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            android:id="@+id/menuSpin"
+            >
+        </Spinner>
     </RelativeLayout>
 </FrameLayout>

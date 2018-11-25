@@ -50,29 +50,31 @@
             android:layout_weight="1"
             android:id="@+id/finger"
             android:layout_marginLeft="4dp"
-            /><ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bigdata"
-        android:src="@drawable/bigdata"
-        android:scaleType="centerInside"
-        android:background="#8B4513"
-        android:layout_weight="1"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chatRoom"
+            android:src="@drawable/chat_icon"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
 
-        android:layout_marginLeft="4dp"
-        /><ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-        android:id="@+id/search"
-        android:src="@drawable/q"
-        android:scaleType="centerInside"
-        android:background="#8B4513"
-        android:layout_weight="1"
+            android:id="@+id/search"
+            android:src="@drawable/q"
+            android:scaleType="centerInside"
+            android:background="#8B4513"
+            android:layout_weight="1"
 
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        />
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            />
     </LinearLayout>
 
     <LinearLayout
