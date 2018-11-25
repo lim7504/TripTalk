@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu">
+        <item>회원 정보 수정</item>
+        <item>로그아웃</item>
+    </string-array>
+</resources>
