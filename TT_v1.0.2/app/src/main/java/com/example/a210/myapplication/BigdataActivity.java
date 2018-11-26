@@ -4,14 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class BigdataActivity extends AppCompatActivity{
     ListView bigdataList;
@@ -67,7 +61,7 @@ public class BigdataActivity extends AppCompatActivity{
                         try
                         {
 
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/MongoDB_Select.jsp?";
+                            String urlString = getString(R.string.url_Server)+"/MongoDB_Select.jsp?";
                             urlString += "USER_ID=" + UserInfomation.User_ID;
                             urlString += "&SELECT_INDEX=" + index.toString();
                             urlString += "&USER_AGE=" + UserInfomation.User_Age.toString();

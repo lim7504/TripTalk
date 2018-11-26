@@ -55,7 +55,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService{
 
                     try {
 
-                        String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/register.jsp?";
+                        String urlString = getString(R.string.url_Server)+"/register.jsp?";
                         urlString += "Token=" + FirebaseInstanceId.getInstance().getToken();
 
                         successFlag = TomcatConnector(urlString);

@@ -1,66 +1,27 @@
 {
   "project_info": {
-    "project_number": "426198513817",
-    "firebase_url": "https://fcmproject-aa208.firebaseio.com",
-    "project_id": "fcmproject-aa208",
-    "storage_bucket": "fcmproject-aa208.appspot.com"
+    "project_number": "410322468277",
+    "firebase_url": "https://jinsu-5be2b.firebaseio.com",
+    "project_id": "jinsu-5be2b",
+    "storage_bucket": "jinsu-5be2b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:426198513817:android:929f092edfa05372",
+        "mobilesdk_app_id": "1:410322468277:android:929f092edfa05372",
         "android_client_info": {
           "package_name": "com.example.a210.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "426198513817-h7c0i7hlk84abudrsp7iqr9gurjb3ir3.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "426198513817-h7c0i7hlk84abudrsp7iqr9gurjb3ir3.apps.googleusercontent.com",
+          "client_id": "410322468277-k874nsh0q43lgffgivhgmqedg9p3b88d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA8DHsYmEwXzeIQStA3WFQF2YUndY3VC3k"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:426198513817:android:50a7b4d36d5b9644",
-        "android_client_info": {
-          "package_name": "com.example.jslim.fcmprojecttest10"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "426198513817-h7c0i7hlk84abudrsp7iqr9gurjb3ir3.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "426198513817-h7c0i7hlk84abudrsp7iqr9gurjb3ir3.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA8DHsYmEwXzeIQStA3WFQF2YUndY3VC3k"
+          "current_key": "AIzaSyAxlV0vz0NTT9LhtbbePtrp-M_fBcCuDAM"
         }
       ],
       "services": {

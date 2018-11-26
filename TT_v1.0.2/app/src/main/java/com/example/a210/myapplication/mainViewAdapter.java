@@ -100,7 +100,7 @@ public class mainViewAdapter extends BaseAdapter{
             if (item.getString("img1").equals("none_image")) {
                 mainImage.setImageResource(R.drawable.default_back);
             } else {
-                String imageurl = "http://lim7504.iptime.org:8080/TripTalkWebServer" + item.getString("img1");
+                String imageurl = context.getString(R.string.url_Server)+"TripTalkWebServer" + item.getString("img1");
                 Log.e("쀍123", "***" + item.getString("img1") + "***" + position);
                 Glide.with(context)
                         .load(imageurl)
@@ -147,7 +147,7 @@ public class mainViewAdapter extends BaseAdapter{
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ttBlogImageUpload.jsp");
+                URL url = new URL(context.getString(R.string.url_Server)+"/ttBlogImageUpload.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");

@@ -1,6 +1,5 @@
 package com.example.a210.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 /**
@@ -68,7 +66,7 @@ public class Footer extends Fragment implements  View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ImageButton home, finger, map, home_dap, finger_dap, map_dap, search, answer,blog, aiChat;
+        ImageButton home, finger, map, home_dap, finger_dap, map_dap, search, answer,blog, myChatRoom;
         LinearLayout lin1, lin2;
 
         View view = inflater.inflate(R.layout.fragment_footer,container,false);
@@ -82,6 +80,7 @@ public class Footer extends Fragment implements  View.OnClickListener{
         search      = (ImageButton)view.findViewById(R.id.search);
         answer      = (ImageButton)view.findViewById(R.id.answer);
         blog        = (ImageButton)view.findViewById(R.id.blog);
+        myChatRoom = (ImageButton)view.findViewById(R.id.chatRoom);
 
         String sep = getArguments().getString("sep");
 
@@ -106,6 +105,7 @@ public class Footer extends Fragment implements  View.OnClickListener{
         home_dap.setOnClickListener(this);
         map_dap.setOnClickListener(this);
         blog.setOnClickListener(this);
+        myChatRoom.setOnClickListener(this);
 
         return view;
     }
@@ -177,6 +177,10 @@ public class Footer extends Fragment implements  View.OnClickListener{
                     MapActivity.itGetTextView.setText("quest");
                     Log.i("뭐야", FingerActivity.itGetTextView.getText().toString());
                 }
+                break;
+            case R.id.chatRoom:
+                Intent it2 = new Intent(getContext(), privateRoomActivity.class);
+                startActivity(it2);
                 break;
         }
     }

@@ -24,5 +24,6 @@
     <string name="y_photopicker_image_count">%1$d</string>
 
     <string name="url_MphotoUpload">http://lim7504.iptime.org:8080/TripTalkWebServer/ttBlogImageUpload.jsp</string>
-    <string name="url_Server">http://lim7504.iptime.org:8080/TripTalkWebServer</string>
+   <string name="url_Server">http://lim7504.iptime.org:8080/TripTalkWebServer</string>
+    <!-- <string name="url_Server">http://10.0.2.2:8080/TripTalkWebServer</string>-->
 </resources>
