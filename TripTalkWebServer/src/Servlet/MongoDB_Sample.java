@@ -34,7 +34,8 @@ public class MongoDB_Sample extends HttpServlet{
 //		out.println(234*324);
 		
 		
-		MongoClient mongo = new MongoClient("lim7504.iptime.org", 27017);
+		MongoClient mongo = new MongoClient("localhost", 27017);
+		
 		MongoDatabase db =  mongo.getDatabase("TRIPTALK");	
 		MongoCollection<Document> collFinger = db.getCollection("FINGER");
 

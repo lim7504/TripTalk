@@ -1,2 +1,4 @@
 eclipse.preferences.version=1
+encoding//WebContent/ChatMsgFromDB.jsp=UTF-8
+encoding//WebContent/ChoosetoDB.jsp=UTF-8
 encoding//src/Servlet/ConnectDB.java=UTF-8

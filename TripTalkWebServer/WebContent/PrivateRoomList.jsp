@@ -26,6 +26,7 @@
 	
 	if(USER_ID == null)
 	{
+		System.out.println("USER_ID is null");
 		return ;
 	}
 	
@@ -45,9 +46,9 @@
 		stmt = conn.createStatement(); 
 
 		//String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);    //메시지 고유 ID
-		sql = "SELECT * FROM [TRIPTALK_WATING] WHERE QUESTION_USER_ID = '{0}'";
+		sql = "SELECT * FROM [TRIPTALK_ROOM] WHERE REQUEST_USER_ID = '{0}' or RECEIVE_USER_ID = '{1}' ";
 		sql = sql.replace("{0}", USER_ID);
-
+		sql = sql.replace("{1}", USER_ID);
 	    
 	    rs = stmt.executeQuery(sql);
 	    
@@ -57,9 +58,12 @@
        	{        	       	
         	JSONObject object = new JSONObject();
 	        	
-	        object.put("QUESTION_CONTENS", rs.getString("QUESTION_CONTENS"));
-	        object.put("QUESTION_SUBJECT", rs.getString("QUESTION_SUBJECT"));
-	        object.put("QUESTION_AREA", rs.getString("QUESTION_AREA"));
+        	object.put("ROOM_ID", rs.getString("ROOM_ID"));
+        	object.put("QUOSTION_TYPE", rs.getString("QUOSTION_TYPE"));
+        	object.put("QUOTATION_CONTENS", rs.getString("QUOTATION_CONTENS"));
+	        object.put("REQUEST_USER_ID", rs.getString("REQUEST_USER_ID"));
+	        object.put("RECEIVE_USER_ID", rs.getString("RECEIVE_USER_ID"));
+	        object.put("WAIT_ID", rs.getString("WAIT_ID"));
 	        jsonArry.add(object);
 	    }
 	        

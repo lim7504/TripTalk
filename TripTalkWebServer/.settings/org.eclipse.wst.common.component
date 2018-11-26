@@ -2,7 +2,7 @@
     <wb-module deploy-name="TripTalkWebServer">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="TripTalkWebServer"/>
         <property name="java-output-path" value="/TripTalkWebServer/build/classes"/>
+        <property name="context-root" value="TripTalkWebServer"/>
     </wb-module>
 </project-modules>

@@ -26,6 +26,7 @@
 	String[] chatProtocol = { "ROOM_ID", "MESSAGE_ID", "CHAT_SENDER_ID", "CHAT_MESSAGE", "CHAR_IMAGE",
 			"CREATE_DATE" };
 
+	String WAIT_ID = null;
 	String ROOM_ID = null;
 	String USER_ID = null;
 	String CHAT_MESSAGE = null;
@@ -38,19 +39,25 @@
 
 	ResultSet rs = null;
 
-	ROOM_ID = request.getParameter("ROOM_ID");
+	WAIT_ID = request.getParameter("WAIT_ID");
 	USER_ID = request.getParameter("CHAT_SENDER_ID");
 	CHAT_MESSAGE = request.getParameter("CHAT_MESSAGE");
 	//	CHAT_MESSAGE_ID = request.getParameter("MESSAGE_ID");
 	CHAT_CREATE_DATE = request.getParameter("CREATE_DATE");
-	USER_TYPE = request.getParameter("USER_TYPE");
+	//USER_TYPE = request.getParameter("USER_TYPE");
 	MESSAGE_TYPE = request.getParameter("MESSAGE_TYPE");
 	
 	System.out.println("MESSAGE_TYPE:"+MESSAGE_TYPE);
-	
-	if (ROOM_ID == null || ROOM_ID.isEmpty() || ROOM_ID.equals("")) {
+	System.out.println(CHAT_MESSAGE);
+	if (WAIT_ID == null ||USER_ID == null || CHAT_MESSAGE == null || CHAT_CREATE_DATE == null || MESSAGE_TYPE == null) {
 		out.println("Watting");
 	} else {
+		
+		if(MESSAGE_TYPE.equals("4"))
+		{
+			return ;
+		}
+		
 		try {
 			String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
 			//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
@@ -65,8 +72,8 @@
 			stmt = conn.createStatement();
 
 			
-			String sql = "SELECT * FROM [TRIPTALK_ROOM] WHERE REQUEST_USER_ID = '{0}' OR RECEIVE_USER_ID = '{0}' ";
-			sql = sql.replace("{0}", USER_ID);
+			String sql = "SELECT * FROM [TRIPTALK_ROOM] WHERE WAIT_ID = '{0}'";
+			sql = sql.replace("{0}", WAIT_ID);
 
 			rs = stmt.executeQuery(sql);
 
@@ -74,6 +81,13 @@
 				ROOM_ID = rs.getString("ROOM_ID");
 			}
 
+			if(ROOM_ID == null)
+			{
+				System.out.println("Room ID is null");
+				out.println("NACK");
+				return;	
+			}
+			
 			if (ROOM_ID.isEmpty() || ROOM_ID.equals("")) {
 				System.out.println("Can not found Room ID");
 				out.println("NACK");

@@ -28,21 +28,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>WebContent/WEB-INF/lib/mongo-java-driver-3.6.3-javadoc.jar</name>
-			<type>1</type>
-			<location>C:/Users/jslim/Desktop/Eclipce/TripTalkWebServer/WebContent/WEB-INF/lib/mongo-java-driver-3.6.3-javadoc.jar</location>
-		</link>
-		<link>
-			<name>WebContent/WEB-INF/lib/mongo-java-driver-3.6.3-sources.jar</name>
-			<type>1</type>
-			<location>C:/Users/jslim/Desktop/Eclipce/TripTalkWebServer/WebContent/WEB-INF/lib/mongo-java-driver-3.6.3-sources.jar</location>
-		</link>
-		<link>
-			<name>WebContent/WEB-INF/lib/mongo-java-driver-3.6.3.jar</name>
-			<type>1</type>
-			<location>C:/Users/jslim/Desktop/Eclipce/TripTalkWebServer/WebContent/WEB-INF/lib/mongo-java-driver-3.6.3.jar</location>
-		</link>
-	</linkedResources>
 </projectDescription>
