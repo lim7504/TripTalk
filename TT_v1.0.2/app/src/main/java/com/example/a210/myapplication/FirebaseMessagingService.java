@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 
@@ -27,6 +29,14 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
     private void sendNotification(String messageBody, String title) {
+
+        try {
+            messageBody = URLDecoder.decode(messageBody, "UTF-8");
+        }catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+
         Intent intent = new Intent(this, MainActivity.class);
         /*
         Intent intent = new Intent(this, ChatActivity.class);

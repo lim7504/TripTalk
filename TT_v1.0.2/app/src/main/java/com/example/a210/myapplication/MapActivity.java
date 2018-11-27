@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import com.nhn.android.maps.NMapView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -51,14 +54,51 @@ public class MapActivity extends FragmentActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            if(successFlag.contains("Success") == true)
+            if(successFlag.contains("ACK") == true) {
                 Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
+
+                Thread th = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try
+                        {
+                            String jsonString;
+                            String urlString = getResources().getString(R.string.url_Server)+"/TripTalkWebServer/QuestionSelectForMy.jsp?";
+                            urlString += "USER_ID=" + UserInfomation.User_ID;
+                            urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
+                            urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
+                            jsonString = TomcatConnector(urlString);
+
+                            JSONArray arr = new JSONArray(jsonString);
+
+                            for (int i = 0; i < arr.length(); i++) {
+                                JSONObject obj = arr.getJSONObject(i);
+
+                                UserInfomation.Wait_ID = obj.get("WAIT_ID").toString();
+                            }
+
+                            Intent it = new Intent(getApplicationContext(), RoomActivity.class);
+
+                            it.putExtra("nick", UserInfomation.User_ID);
+                            //it.putExtra("grade", UserInfomation.User_ID);
+                            it.putExtra("subTitle", etcEditText.getText().toString());
+                            it.putExtra("create", "True");
+                            startActivity(it);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                    }
+                });
+                th.start();
+
+                //if(bResult) {
+            }
             else
                 Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
 
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +170,7 @@ public class MapActivity extends FragmentActivity {
             }
         });
 
+        myLocation.setText("인천광역시 부평구 산곡동");
 
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +196,7 @@ public class MapActivity extends FragmentActivity {
 
                         try {
 
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionRegist.jsp?";
+                            String urlString = getString(R.string.url_Server)+"/QuestionRegist.jsp?";
                             urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
                             urlString += "&QUESTION_CONTENS=" + etcEditText.getText().toString();
                             urlString += "&QUESTION_AREA=" + myLocation.getText().toString();

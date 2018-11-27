@@ -1,7 +1,5 @@
 package Servlet;
 
-import static com.mongodb.client.model.Filters.eq;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -19,10 +17,10 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class MongoDB_Sample extends HttpServlet{
+public class MongoDBSelect extends HttpServlet{
 	
 
-	public MongoDB_Sample()
+	public MongoDBSelect()
 	{
 		
 		
@@ -35,17 +33,34 @@ public class MongoDB_Sample extends HttpServlet{
 		
 		
 		MongoClient mongo = new MongoClient("localhost", 27017);
-		
-		MongoDatabase db =  mongo.getDatabase("TRIPTALK");	
-		MongoCollection<Document> collFinger = db.getCollection("FINGER");
-
-
-		List<Document> fingerTotal = (List<Document>) collFinger.find().into(new ArrayList<Document>());
-		
-		
+		MongoDatabase db =  mongo.getDatabase("test");	
+		MongoCollection<Document> collSubject = db.getCollection("Subject");
+		MongoCollection<Document> collStudent = db.getCollection("Student");
 
 		
-//		Document myDoc = collFinger.find(eq("USER_AGE", 11)).first();
+		String student_id = "aaaa";
+		
+//		BasicDBObject searchQuery = new BasicDBObject();
+//		searchQuery.put("signature", signature);
+		Document dd = new Document("student_id","aaaa");
+		
+		
+	    BasicDBObject query = new BasicDBObject();
+	
+	    query.put("student_id", new BasicDBObject("$eq", student_id));
+				
+		
+		for (Document subject : collSubject.find(query)) 
+		{						
+			
+			out.println(subject.toJson());                
+            out.println("<BR>");
+			
+		}
+
+			
+		
+		
 		
 		
 		

@@ -115,7 +115,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     public void run() {
 
                         try {
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/SignupUser.jsp?";
+                            String urlString = getString(R.string.url_Server) +"/SignupUser.jsp?";
                             urlString += "USER_ID=" + editTextSignup_ID.getText().toString();
                             urlString += "&USER_PASSWORD=" + editTextSignup_Password.getText().toString();
                             urlString += "&USER_NICKNAME=" + editTextSignup_NickName.getText().toString();

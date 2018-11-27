@@ -110,7 +110,7 @@ public class BlogDetailActivity extends AppCompatActivity {
 
                 try {
 
-                    String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/BlogClickRegist.jsp?";
+                    String urlString = getString(R.string.url_Server)+"/BlogClickRegist.jsp?";
                     urlString += "USER_ID=" + UserInfomation.User_ID;
                     urlString += "&BLOG_ID=" + blogId.toString();
                     successFlag = TomcatConnector(urlString);
@@ -122,19 +122,6 @@ public class BlogDetailActivity extends AppCompatActivity {
             }
         });
         th.start();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 

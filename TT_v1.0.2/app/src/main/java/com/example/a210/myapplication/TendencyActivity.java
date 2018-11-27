@@ -1,21 +1,13 @@
 package com.example.a210.myapplication;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -24,8 +16,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TendencyActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -113,7 +103,7 @@ public class TendencyActivity extends AppCompatActivity implements View.OnClickL
                     public void run() {
 
                         try {
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/SignupUserForTendency.jsp?";
+                            String urlString = getString(R.string.url_Server)+"/SignupUserForTendency.jsp?";
                             urlString += "USER_ID=" + UserInfomation.User_ID.toString();
                             urlString += "&TENDENCY1=" + tendency1.toString();
                             urlString += "&TENDENCY2=" + tendency2.toString();

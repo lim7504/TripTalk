@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_101">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/C-_Program Files_Apache Software Foundation_Tomcat 8.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/jslim/Desktop/Eclipce/TripTalkWebServer/WebContent/WEB-INF/lib/mongo-java-driver-3.6.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/jslim/Desktop/Eclipce/TripTalkWebServer/WebContent/WEB-INF/lib/mongo-java-driver-3.6.3-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/jslim/Desktop/Eclipce/TripTalkWebServer/WebContent/WEB-INF/lib/mongo-java-driver-3.6.3-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_181/lib/ext/sqljdbc42.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_101/lib/ext/sqljdbc42.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_101/lib/ext/mongo-java-driver-3.6.3.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_101/lib/ext/mongo-java-driver-3.6.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_101/lib/ext/mongo-java-driver-3.6.3-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

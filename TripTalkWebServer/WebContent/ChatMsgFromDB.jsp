@@ -28,9 +28,10 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
 	
 	//ROOM_ID = request.getParameter("ROOM_ID");
 	GET_MESSAGE_ID = request.getParameter("GET_MESSAGE_ID");
-	
+	System.out.println("!");
  	if(GET_MESSAGE_ID == null || GET_MESSAGE_ID.isEmpty()|| GET_MESSAGE_ID.equals(""))
  	{
+ 		System.out.println("@");
  		return ;
  	}else
  	{

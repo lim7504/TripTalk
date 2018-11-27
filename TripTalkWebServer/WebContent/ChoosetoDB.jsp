@@ -22,9 +22,9 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
 	
 	String ROOM_ID = null;
 	String USER_ID = null;
-	String CHOOSE_ID = null;
-	String QUOSTION_TYPE = null;
-	String QUOTATION_CONTENS = null;
+	String WATING_ID = null;
+	String QUESTION_TYPE = null;
+	String QUESTION_CONTENS = null;
 	String CREATE_DATE = null;
 	String REQUEST_USER_ID = null;
 	
@@ -32,9 +32,9 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
 	ResultSet rs = null;
 	
 	USER_ID = request.getParameter("USER_ID");
-	CHOOSE_ID = request.getParameter("CHOOSE_ID"); 
-	QUOSTION_TYPE = request.getParameter("QUOSTION_TYPE");
-	QUOTATION_CONTENS = request.getParameter("QUOTATION_CONTENS");
+	WATING_ID = request.getParameter("ROOM_ID"); 
+	QUESTION_TYPE = request.getParameter("QUOSTION_TYPE");
+	QUESTION_CONTENS = request.getParameter("QUOTATION_CONTENS");
 	CREATE_DATE = request.getParameter("CREATE_DATE");
 	
  	if(USER_ID == null || USER_ID.isEmpty()|| USER_ID.equals(""))
@@ -56,10 +56,10 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
 		if(conn != null)
 		{
 			stmt = conn.createStatement(); 
-	
+
 			//String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);    //메시지 고유 ID
-			String sql = "SELECT * FROM [TRIPTALK_ROOM] WHERE REQUEST_USER_ID = '{0}'";
-			sql = sql.replace("{0}", USER_ID);
+			String sql = "SELECT * FROM [TRIPTALK_ROOM] WHERE WAIT_ID = '{0}'";
+			sql = sql.replace("{0}", WATING_ID);
 
 		    
 		    rs = stmt.executeQuery(sql);
@@ -87,12 +87,30 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
 			}
 			stmt.clearBatch();
 		
-			CHOOSE_ID = String.valueOf(Math.random() % 100 + 1);  
+			sql = "SELECT QUESTION_SUBJECT, QUESTION_CONTENS FROM [TRIPTALK_WATING] WHERE WATING_ID = '{0}'";
+			
+		    sql = sql.replace("{0}", WATING_ID);
+		    
+		    rs = stmt.executeQuery(sql);
+		    
+			while(rs.next())
+			{
+				QUESTION_TYPE = rs.getString("QUESTION_SUBJECT");
+				QUESTION_CONTENS = rs.getString("QUESTION_CONTENS");
+			}
+			
+			stmt.clearBatch();
+			
+			
+			String  CHOOSE_ID = String.valueOf(Math.random() % 100 + 1);  
+			
 			
 			// 토큰값 전달시 쿼리문 입력할곳임
 			sql = "INSERT INTO [TRIPTALK_CHOOSE](ROOM_ID,CHOOSE_ID,QUOSTION_TYPE,QUOTATION_CONTENS,CREATE_DATE) VALUES(?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 		
+
+			
 			/* 디버깅용
 			System.out.println(ROOM_ID);
 			System.out.println(CHOOSE_ID);
@@ -102,8 +120,8 @@ FCM틍 통해 전달 받은 채팅 메세지 아이디를 이용하여 메세지
 			*/
 			pstmt.setString(1, ROOM_ID);
 			pstmt.setString(2, CHOOSE_ID);
-			pstmt.setString(3, QUOSTION_TYPE);
-			pstmt.setString(4, QUOTATION_CONTENS);
+			pstmt.setString(3, QUESTION_TYPE);
+			pstmt.setString(4, QUESTION_CONTENS);
 			pstmt.setString(5, CREATE_DATE);
 			
 			pstmt.executeUpdate();//쿼리를 실행 하라는 명령어 

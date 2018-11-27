@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1029637065857",
-    "firebase_url": "https://psychic-lens-207503.firebaseio.com",
-    "project_id": "psychic-lens-207503",
-    "storage_bucket": "psychic-lens-207503.appspot.com"
+    "project_number": "410322468277",
+    "firebase_url": "https://jinsu-5be2b.firebaseio.com",
+    "project_id": "jinsu-5be2b",
+    "storage_bucket": "jinsu-5be2b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1029637065857:android:929f092edfa05372",
+        "mobilesdk_app_id": "1:410322468277:android:929f092edfa05372",
         "android_client_info": {
           "package_name": "com.example.a210.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1029637065857-jhqaudl0l4veos588mcllpe8h4dfau25.apps.googleusercontent.com",
+          "client_id": "410322468277-k874nsh0q43lgffgivhgmqedg9p3b88d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDzUbsqu6Sa-X0dTvq9887kTYz3KO8oD3o"
+          "current_key": "AIzaSyAxlV0vz0NTT9LhtbbePtrp-M_fBcCuDAM"
         }
       ],
       "services": {

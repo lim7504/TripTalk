@@ -1,36 +1,28 @@
 package com.example.a210.myapplication;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
-import android.view.ViewParent;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -136,7 +128,7 @@ public class BlogActivity extends AppCompatActivity{
                     gridImg5.setImageResource(R.drawable.default_back);
                 } else {
                     for (int i = 0; i < resultSplit.length-1; i++) {
-                        String imageurl = "http://lim7504.iptime.org:8080/TripTalkWebServer" + resultSplit[i + 1];
+                        String imageurl = getString(R.string.url_Server)+ resultSplit[i + 1];
                         //Log.e("쀍123", "***" + gridSplit[position + 1] + "***" + position);
                         if (resultSplit[i + 1].equals("none_image")) {
                             if(i == 1)

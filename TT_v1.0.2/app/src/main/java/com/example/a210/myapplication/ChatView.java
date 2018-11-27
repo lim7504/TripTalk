@@ -9,6 +9,7 @@ public class ChatView {
     private String grade;
     private String subTitle;
     private String wait_id;
+    private String _sRoomId;
 
     public String getWaitID() {
         return wait_id;
@@ -57,5 +58,13 @@ public class ChatView {
 
     public void setSubTitle(String subTitle) {
         this.subTitle = subTitle;
+    }
+
+    public void setRoomId(String roomId) {
+        this._sRoomId = roomId;
+    }
+
+    public String getRoomId() {
+        return _sRoomId;
     }
 }

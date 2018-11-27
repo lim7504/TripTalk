@@ -130,7 +130,7 @@ public class LonginActivity extends AppCompatActivity implements View.OnClickLis
             public void run() {
                 try {
                     String jsonString;
-                    String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/Login.jsp?";
+                    String urlString = getString(R.string.url_Server)+"/Login.jsp?";
                     String id = prefs.getString("id", "");
                     String password = prefs.getString("pass", "");
                     //String urlString = "http://10.0.2.2:8080/TripTalkWebServer/Login.jsp?";
@@ -178,7 +178,7 @@ public class LonginActivity extends AppCompatActivity implements View.OnClickLis
 
                         try {
                             String jsonString;
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/Login.jsp?";
+                            String urlString = getString(R.string.url_Server)+"/Login.jsp?";
                             //String urlString = "http://10.0.2.2:8080/TripTalkWebServer/Login.jsp?";
                             urlString += "USER_ID=" + editTextLogin_ID.getText().toString();
                             urlString += "&USER_PASSWORD=" + editTextLogin_Password.getText().toString();
@@ -220,7 +220,7 @@ public class LonginActivity extends AppCompatActivity implements View.OnClickLis
 
                         try {
                             String jsonString;
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/Login.jsp?";
+                            String urlString = getString(R.string.url_Server)+"/Login.jsp?";
                             //String urlString = "http://10.0.2.2:8080/TripTalkWebServer/PrivateRoomList.jsp?";
                             urlString += "USER_ID=" + editTextLogin_ID.getText().toString();
 

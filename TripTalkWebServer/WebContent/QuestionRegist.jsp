@@ -10,6 +10,8 @@
 <%@ page import="java.util.*"%>
 <%@page import="java.net.URLEncoder"%>
 <%@ page import="com.google.android.gcm.server.*"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="org.json.simple.JSONArray"%>
 <%@ page language="java" contentType="text/html;  charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -54,22 +56,15 @@
 	QUESTION_AREA_DETAIL = request.getParameter("QUESTION_AREA_DETAIL");
 	QUESTION_SUBJECT = request.getParameter("QUESTION_SUBJECT");
 	
-	//if(QUESTION_USER_ID ==null || QUESTION_CONTENS == null || QUESTION_AREA == null || QUESTION_SUBJECT == null)
-	//{
-	//	return ;
-	//}
+	if(QUESTION_USER_ID ==null || QUESTION_CONTENS == null || QUESTION_AREA == null || QUESTION_SUBJECT == null)
+	{
+		return ;
+	}
 	//IS_QUESTION = request.getParameter("IS_QUESTION");
-	
-	
-	
-	
-	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//채팅방이 만들어지기전 답변자와 Match여부를 판단하기 위한 Data 수집 (추후 ROOM TABLE과 합쳐도 무방하다고 생각됨)
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	// 토큰값 전달시 쿼리문 입력할곳임
 	sql = "INSERT INTO [TRIPTALK_WATING](QUESTION_USER_ID,QUESTION_CONTENS,QUESTION_AREA,QUESTION_AREA_DETAIL,QUESTION_SUBJECT) VALUES(?,?,?,?,?)";
 	pstmt = conn.prepareStatement(sql);
@@ -146,7 +141,7 @@
 	
 
     while(rs.next()){ 	
-    	MongoDB_Insert.FingerInsertForArea(QUESTION_USER_ID, rs.getInt("USER_AGE"),rs.getString("USER_SEX"),rs.getString("USER_FUN"), QUESTION_AREA, QUESTION_AREA_DETAIL, rs.getString("TENDENCY1"), rs.getString("TENDENCY2"), rs.getString("TENDENCY3"));
+    	MongoDB_Insert.FingerInsertForArea(QUESTION_USER_ID, rs.getInt("USER_AGE"), rs.getString("USER_SEX"), rs.getString("USER_FUN"), QUESTION_AREA, QUESTION_AREA_DETAIL, rs.getString("TENDENCY1"), rs.getString("TENDENCY2"), rs.getString("TENDENCY3"));
     }
 	
 		 

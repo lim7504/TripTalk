@@ -37,6 +37,7 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".RoomActivity" />
         <activity android:name=".MychatActivity" />
+        <activity android:name=".privateRoomActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".BigdataActivity" />
         <activity android:name=".AreaActivity" />

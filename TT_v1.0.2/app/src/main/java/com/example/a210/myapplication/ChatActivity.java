@@ -53,7 +53,7 @@ public class ChatActivity extends AppCompatActivity{
                     try
                     {
                         String jsonString;
-                        String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionSelect.jsp?";
+                        String urlString = "http://192.168.0.5:8080/TripTalkWebServer/QuestionSelect.jsp?";
                         urlString += "USER_ID=" + UserInfomation.User_ID;
                         urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
                         urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
@@ -85,7 +85,7 @@ public class ChatActivity extends AppCompatActivity{
                     try
                     {
                         String jsonString;
-                        String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionSelect.jsp?";
+                        String urlString = getString(R.string.url_Server)+"/TripTalkWebServer/QuestionSelect.jsp?";
                         urlString += "USER_ID=" + UserInfomation.User_ID;
                         urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
                         urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
@@ -138,13 +138,17 @@ public class ChatActivity extends AppCompatActivity{
                             Date currentTime = new Date ();
                             String mTime = mSimpleDateFormat.format ( currentTime );
 
-                            String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/ChatRoomManager.jsp?";
-                            urlString += "REQUEST_USER_ID=" + adapter.getChatViewItem(iRoomNumber).getNick();
+                            String urlString = getString(R.string.url_Server)+"/TripTalkWebServer/ChatRoomManager.jsp?";
+                            urlString += "&ROOM_ID=" + adapter.getChatViewItem(iRoomNumber).getWaitID();
+                            urlString += "&REQUEST_USER_ID=" + adapter.getChatViewItem(iRoomNumber).getNick();
                             urlString += "&RECEIVE_USER_ID=" + UserInfomation.User_ID;
-                            urlString += "&ROOM_NAME=" + adapter.getChatViewItem(iRoomNumber).getWaitID();
+                            urlString += "&ROOM_NAME=" + adapter.getChatViewItem(iRoomNumber).getSubTitle();
+                            urlString += "&QUOSTION_TYPE=" + adapter.getChatViewItem(iRoomNumber).getGrade();
                             urlString += "&CREATE_DATE=" + mTime;
+                            Log.e("test123",urlString);
                             jsonString = TomcatConnector(urlString);
                             JSONArray arr = new JSONArray(jsonString);
+
 
                             for (int i = 0; i < arr.length(); i++) {
                                 JSONObject obj = arr.getJSONObject(i);
@@ -153,13 +157,16 @@ public class ChatActivity extends AppCompatActivity{
                                 {
                                     bResult = true;
                                     UserInfomation.Wait_ID = adapter.getChatViewItem(iRoomNumber).getWaitID();
+
                                     //if(bResult) {
                                     Intent it = new Intent(getApplicationContext(), RoomActivity.class);
                                     Log.i("getItem", adapter.getChatViewItem(i).getNick());
                                     it.putExtra("nick", adapter.getChatViewItem(i).getNick().toString());
-                                    it.putExtra("grade", adapter.getChatViewItem(i).getGrade().toString());
+                                    it.putExtra("grade", adapter.getChatViewItem(i).getGrade().toString());//등급대신 subtitle로 사용중
+                                    it.putExtra("subTitle", adapter.getChatViewItem(i).getSubTitle() .toString()); //subtitle 대신 title로 사용 중
+                                    it.putExtra("create", "True");
                                     startActivity(it);
-                               // }
+                                    // }
                                 }else
                                 {
                                     bResult = false;
