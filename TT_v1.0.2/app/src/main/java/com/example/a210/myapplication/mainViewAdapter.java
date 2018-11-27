@@ -33,24 +33,24 @@ public class mainViewAdapter extends BaseAdapter{
     private ArrayList<mainView> mainViewItem = new ArrayList<mainView>();
 
     public mainViewAdapter(Context context) {
-        this.context = context;
+            this.context = context;
 
-        try {
-            String result = new BlogAllSearch().execute().get();
-            Log.d("뤼절트", result);
+            try {
+                String result = new BlogAllSearch().execute().get();
+                Log.d("뤼절트", result);
 
-            //Log.e("끼야아랑가아락", result.toString());
-            JSONObject jObject = new JSONObject(result);  // JSONObject 추출
-            String code = jObject.getString("code");
-            Log.d("blgInfo", code);
-            if(code.equals("succ")){
-                jArray = jObject.getJSONArray("contents");
-            }else{
-                Log.d("USERINFO", "blog Not Working");
+                //Log.e("끼야아랑가아락", result.toString());
+                JSONObject jObject = new JSONObject(result);  // JSONObject 추출
+                String code = jObject.getString("code");
+                Log.d("blgInfo", code);
+                if(code.equals("succ")){
+                    jArray = jObject.getJSONArray("contents");
+                }else{
+                    Log.d("USERINFO", "blog Not Working");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
     @Override

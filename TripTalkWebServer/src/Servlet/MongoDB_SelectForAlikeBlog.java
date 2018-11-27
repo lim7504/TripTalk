@@ -103,9 +103,13 @@ public class MongoDB_SelectForAlikeBlog
 		List<Document> fingerTotal;	
 		List<Document> tendencyCollectionOfTemp;
 		
-		String tendency1 = "";
-		String tendency2 = "";
-		String tendency3 = "";
+		String userTendency1 = "";
+		String userTendency2 = "";
+		String userTendency3 = "";
+		
+		String areaTendency1 = "";
+		String areaTendency2 = "";
+		String areaTendency3 = "";
 		
 		String str = "";
 		List<Model> listModel = new ArrayList<Model>();
@@ -131,8 +135,7 @@ public class MongoDB_SelectForAlikeBlog
 				url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
 				conn = DriverManager.getConnection(url);
 				stmt = conn.createStatement(); 
-				sql = "SELECT [LAST_BLOG_ID] FROM [TRIPTALK_USER] WHERE [USER_ID] = '{0}'";
-				//sql = "SELECT TOP 1 [QUESTION_AREA], [QUESTION_AREA_DETAIL]  FROM [TRIPTALK_WATING] WHERE [QUESTION_USER_ID] = '{0}' ORDER BY [CREATE_DATE] DESC";
+				sql = "SELECT [LAST_BLOG_ID], [TENDENCY1], [TENDENCY2], [TENDENCY3] FROM [TRIPTALK_USER] WHERE [USER_ID] = '{0}'";
 				sql = sql.replace("{0}", this.user_id.toString());
 				
 				rs = stmt.executeQuery(sql);
@@ -140,7 +143,9 @@ public class MongoDB_SelectForAlikeBlog
 				if(rs.next())
 				{	    	  	
 					this.blog_id = rs.getString("LAST_BLOG_ID");
-					//this.QuestionAreaDetail = rs.getString("QUESTION_AREA_DETAIL");
+					this.userTendency1 = rs.getString("TENDENCY1");
+					this.userTendency2 = rs.getString("TENDENCY2");
+					this.userTendency3 = rs.getString("TENDENCY3");
 				}
 		
 			} catch (SQLException e) {
@@ -162,55 +167,160 @@ public class MongoDB_SelectForAlikeBlog
 			
 			//tendercy1
 			this.tendencyCollectionOfTemp = (List<Document>)collFinger.aggregate(Arrays.asList(
-					new Document("$match", new Document("LOG_CODE", "BLOG").append("BLOG_ID", this.blog_id)),  	        
-	                new Document("$group",new Document("_id", "$TENDENCY1").append("COUNT", new Document("$sum", 1))),
-	                new Document("$sort", new Document("COUNT", -1)),
+					new Document("$match", new Document("LOG_CODE", "BLOG")
+												.append("BLOG_ID", this.blog_id)
+												.append("TENDENCY1", new Document("$ne","보통")))
+					,  	        
+	                new Document("$group",new Document("_id", "$TENDENCY1")
+	                						   .append("COUNT", new Document("$sum", 1)))
+	                ,
+	                new Document("$sort", new Document("COUNT", -1))
+	                ,
 	                new Document("$limit", 1)
 	                )).into(new ArrayList<Document>());;
 	                
 	        Document tendencyDocument1 = tendencyCollectionOfTemp.get(0);
 	                
-	        this.tendency1 = tendencyDocument1.getString("_id");
+	        this.areaTendency1 = tendencyDocument1.getString("_id");
 	        
 	        
 			//tendercy2
 			this.tendencyCollectionOfTemp = (List<Document>)collFinger.aggregate(Arrays.asList(
-					new Document("$match", new Document("LOG_CODE", "BLOG").append("BLOG_ID", this.blog_id)),  	         
-	                new Document("$group",new Document("_id", "$TENDENCY2").append("COUNT", new Document("$sum", 1))),
-	                new Document("$sort", new Document("COUNT", -1)),
+					new Document("$match", new Document("LOG_CODE", "BLOG")
+												.append("BLOG_ID", this.blog_id)
+												.append("TENDENCY2", new Document("$ne","보통")))
+					,  	         
+	                new Document("$group",new Document("_id", "$TENDENCY2")
+	                						   .append("COUNT", new Document("$sum", 1)))
+	                ,
+	                new Document("$sort", new Document("COUNT", -1))
+	                ,
 	                new Document("$limit", 1)
 	                )).into(new ArrayList<Document>());;
 	                
 	        Document tendencyDocument2 = tendencyCollectionOfTemp.get(0);
 	                
-	        this.tendency2 = tendencyDocument2.getString("_id");
+	        this.areaTendency2 = tendencyDocument2.getString("_id");
 	        
 	        
 			//tendercy3
 			this.tendencyCollectionOfTemp = (List<Document>)collFinger.aggregate(Arrays.asList(
-					new Document("$match", new Document("LOG_CODE", "BLOG").append("BLOG_ID", this.blog_id)),  	 	        
-	                new Document("$group",new Document("_id", "$TENDENCY3").append("COUNT", new Document("$sum", 1))),
-	                new Document("$sort", new Document("COUNT", -1)),
+					new Document("$match", new Document("LOG_CODE", "BLOG")
+												.append("BLOG_ID", this.blog_id)
+												.append("TENDENCY3", new Document("$ne","보통")))
+					,  	 	        
+	                new Document("$group",new Document("_id", "$TENDENCY3")
+	                						   .append("COUNT", new Document("$sum", 1)))
+	                ,
+	                new Document("$sort", new Document("COUNT", -1))
+	                ,
 	                new Document("$limit", 1)
 	                )).into(new ArrayList<Document>());;
 	                
 	        Document tendencyDocument3 = tendencyCollectionOfTemp.get(0);
 	                
-	        this.tendency3 = tendencyDocument3.getString("_id");
+	        this.areaTendency3 = tendencyDocument3.getString("_id");
 		}
 		
 			
 		public void SearchAlikeArea()
 		{
-			
-			this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
-					new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY1", this.tendency1).append("TENDENCY2", this.tendency2).append("TENDENCY3", this.tendency3).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
-	                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
-	                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
-	                new Document("$sort", new Document("COUNT", -1)),
-	                new Document("$limit", 1)
-	                )).into(new ArrayList<Document>());;
-	              
+			if(this.userTendency1 == "보통"
+    	        	&& this.userTendency2 == "보통"
+    	        	&& this.userTendency3 == "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 != "보통"
+    	        	&& this.userTendency2 == "보통"
+    	        	&& this.userTendency3 == "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY1", this.areaTendency1).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 == "보통"
+    	        	&& this.userTendency2 != "보통"
+    	        	&& this.userTendency3 == "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY2", this.areaTendency2).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 == "보통"
+    	        	&& this.userTendency2 == "보통"
+    	        	&& this.userTendency3 != "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY3", this.areaTendency3).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 != "보통"
+    	        	&& this.userTendency2 != "보통"
+    	        	&& this.userTendency3 == "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY1", this.areaTendency1).append("TENDENCY2", this.areaTendency2).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 != "보통"
+    	        	&& this.userTendency2 == "보통"
+    	        	&& this.userTendency3 != "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY1", this.areaTendency1).append("TENDENCY3", this.areaTendency3).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 == "보통"
+    	        	&& this.userTendency2 != "보통"
+    	        	&& this.userTendency3 != "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY2", this.areaTendency2).append("TENDENCY3", this.areaTendency3).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
+			if(this.userTendency1 != "보통"
+    	        	&& this.userTendency2 != "보통"
+    	        	&& this.userTendency3 != "보통")
+                {  
+					this.fingerTotal = (List<Document>)collFinger.aggregate(Arrays.asList(
+							new Document("$match", new Document("LOG_CODE", "BLOG").append("TENDENCY1", this.areaTendency1).append("TENDENCY2", this.areaTendency2).append("TENDENCY3", this.areaTendency3).append("BLOG_ID", new Document("$ne",this.blog_id))),     	        
+			                new Document("$group",new Document("_id",new Document("BLOG_ID","$BLOG_ID")).append("COUNT", new Document("$sum", 1))),
+			                new Document("$project", new Document("BLOG_ID", "$_id.BLOG_ID").append("COUNT", "$COUNT").append("_id", 0)),
+			                new Document("$sort", new Document("COUNT", -1)),
+			                new Document("$limit", 1)
+			                )).into(new ArrayList<Document>());;
+                }
 		}
 		
 		

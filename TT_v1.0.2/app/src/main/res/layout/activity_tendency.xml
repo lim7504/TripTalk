@@ -14,20 +14,21 @@
         >
 
         <LinearLayout
-            android:background="#8B4513"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#8B4513"
+            android:orientation="vertical">
+
             <TextView
-                android:textStyle="bold"
-                android:textSize="30dp"
-                android:textColor="#ffffff"
-                android:text="성향조사"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:text="성향조사"
+                android:textColor="#ffffff"
+                android:textSize="30dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -44,7 +45,7 @@
                 android:textAlignment="gravity"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="당신은 낮/밤 중 어떤 시간을 좋아합니까?" />
+                android:text="미술관보다 야시장이 좋다" />
 
             <RadioGroup
                 android:layout_width="280dp"
@@ -53,21 +54,32 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 >
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="낮"
-                    android:id="@+id/rbDayTime"
+                    android:text="Yes"
+                    android:id="@+id/rbNight"
                     />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="밤"
-                    android:id="@+id/rbNight"
+                    android:text="Nomal"
+                    android:id="@+id/rbTendercy1Nomal"
                     />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="No"
+                    android:id="@+id/rbDayTime"
+                    />
+
+
             </RadioGroup>
 
 
@@ -88,7 +100,7 @@
                 android:textAlignment="gravity"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="당신은 내성적/외향적 중 어떤 성격입니까?" />
+                android:text="낯선 곳보다 익숙한 곳이 좋다" />
 
             <RadioGroup
                 android:layout_width="280dp"
@@ -101,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="내성적"
+                    android:text="Yes"
                     android:id="@+id/rbIntroverted"
                     />
 
@@ -109,7 +121,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="외향적"
+                    android:text="Nomal"
+                    android:id="@+id/rbTendercy2Nomal"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="No"
                     android:id="@+id/rbExtroverted"
                     />
             </RadioGroup>
@@ -134,7 +154,7 @@
                 android:textAlignment="gravity"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="당신은 휴양지/관장지 여행중 어떤 여행을 선호합니까?" />
+                android:text="인터넷이 없으면 3시간도 버티기 힘들다" />
 
             <RadioGroup
                 android:layout_width="280dp"
@@ -147,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="휴양지"
+                    android:text="Yes"
                     android:id="@+id/rbVacationSpot"
                     />
 
@@ -155,7 +175,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="관광지"
+                    android:text="Nomal"
+                    android:id="@+id/rbTendercy3Nomal"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="No"
                     android:id="@+id/rbTourSpot"
                     />
             </RadioGroup>

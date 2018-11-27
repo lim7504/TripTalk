@@ -32,10 +32,13 @@ public class TendencyActivity extends AppCompatActivity implements View.OnClickL
 
     String successFlag;
     RadioButton radioGroupTendency_rbDayTime;
+    RadioButton radioGroupTendency_rbTendercy1Nomal;
     RadioButton radioGroupTendency_rbNight;
     RadioButton radioGroupTendency_rbIntroverted;
+    RadioButton radioGroupTendency_rbTendercy2Nomal;
     RadioButton radioGroupTendency_rbExtroverted;
     RadioButton radioGroupTendency_rbVacationSpot;
+    RadioButton radioGroupTendency_rbTendercy3Nomal;
     RadioButton radioGroupTendency_rbTourSpot;
     Intent it;
     Button successTendencyBtn;
@@ -69,18 +72,24 @@ public class TendencyActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_tendency);
 
         radioGroupTendency_rbDayTime = (RadioButton)findViewById(R.id.rbDayTime) ;
+        radioGroupTendency_rbTendercy1Nomal = (RadioButton)findViewById(R.id.rbTendercy1Nomal) ;
         radioGroupTendency_rbNight = (RadioButton)findViewById(R.id.rbNight) ;
         radioGroupTendency_rbIntroverted = (RadioButton)findViewById(R.id.rbIntroverted) ;
+        radioGroupTendency_rbTendercy2Nomal = (RadioButton)findViewById(R.id.rbTendercy2Nomal) ;
         radioGroupTendency_rbExtroverted = (RadioButton)findViewById(R.id.rbExtroverted) ;
         radioGroupTendency_rbVacationSpot = (RadioButton)findViewById(R.id.rbVacationSpot) ;
+        radioGroupTendency_rbTendercy3Nomal = (RadioButton)findViewById(R.id.rbTendercy3Nomal) ;
         radioGroupTendency_rbTourSpot = (RadioButton)findViewById(R.id.rbTourSpot) ;
         successTendencyBtn = (Button)findViewById(R.id.successTendencyBtn) ;
 
         radioGroupTendency_rbDayTime.setOnClickListener(this);
+        radioGroupTendency_rbTendercy1Nomal.setOnClickListener(this);
         radioGroupTendency_rbNight.setOnClickListener(this);
         radioGroupTendency_rbIntroverted.setOnClickListener(this);
+        radioGroupTendency_rbTendercy2Nomal.setOnClickListener(this);
         radioGroupTendency_rbExtroverted.setOnClickListener(this);
         radioGroupTendency_rbVacationSpot.setOnClickListener(this);
+        radioGroupTendency_rbTendercy3Nomal.setOnClickListener(this);
         radioGroupTendency_rbTourSpot.setOnClickListener(this);
         successTendencyBtn.setOnClickListener(this);
 
@@ -132,17 +141,26 @@ public class TendencyActivity extends AppCompatActivity implements View.OnClickL
             case R.id.rbDayTime :
                 tendency1 = "낮";
                 break;
+            case R.id.rbTendercy1Nomal :
+                tendency1 = "보통";
+                break;
             case R.id.rbNight :
                 tendency1 = "밤";
                 break;
             case R.id.rbIntroverted :
                 tendency2 = "내성적";
                 break;
+            case R.id.rbTendercy2Nomal :
+                tendency2 = "보통";
+                break;
             case R.id.rbExtroverted :
                 tendency2 = "외향적";
                 break;
             case R.id.rbVacationSpot :
                 tendency3 = "휴양지";
+                break;
+            case R.id.rbTendercy3Nomal :
+                tendency3 = "보통";
                 break;
             case R.id.rbTourSpot :
                 tendency3 = "관광지";
