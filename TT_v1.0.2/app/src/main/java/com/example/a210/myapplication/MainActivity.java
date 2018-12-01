@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity{
     ListView mainList;
     Intent it,itGet;
     String blogId;
-
-
+    String index = "";
+    String jsonStringForIntent = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +40,61 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                 blogId = adapter.getBlogId(i);
+                blogId = adapter.getBlogId(i);
 
+                if(blogId.contains("bigdata_") == true) {
+                    index = blogId.replace("bigdata_", "");
 
+                    Thread th = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
 
+                                String urlString = getString(R.string.url_Server) + "/MongoDB_Select.jsp?";
+                                urlString += "USER_ID=" + UserInfomation.User_ID;
+                                urlString += "&SELECT_INDEX=" + index;
+                                urlString += "&USER_AGE=" + UserInfomation.User_Age.toString();
+                                urlString += "&USER_SEX=" + UserInfomation.User_Sex.toString();
+                                urlString += "&USER_FUN=" + UserInfomation.User_Fun.toString();
 
-                Intent it = new Intent(getApplicationContext(),BlogDetailActivity.class);
-                it.putExtra("blogId",blogId);
-                startActivity(it);
+                                jsonStringForIntent = TomcatConnector(urlString);
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+                    th.start();
+
+                    try {
+                        th.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (blogId.equals("bigdata_0")
+                            || blogId.equals("bigdata_1")
+                            || blogId.equals("bigdata_2")
+                            || blogId.equals("bigdata_3")) {
+                        Intent it = new Intent(getApplicationContext(), BigdataActivityStatistics.class);
+                        it.putExtra("str", jsonStringForIntent);
+                        it.putExtra("sep", "quest");
+                        startActivity(it);
+                    } else if (blogId.equals("bigdata_4")
+                            || blogId.equals("bigdata_6")) {
+                        Intent it = new Intent(getApplicationContext(), BigdataActivityStatisticsForString.class);
+                        it.putExtra("str", jsonStringForIntent);
+                        it.putExtra("sep", "quest");
+                        startActivity(it);
+                    } else if (blogId.equals("bigdata_5")) {
+                        Intent it = new Intent(getApplicationContext(), BlogDetailActivity.class);
+                        it.putExtra("blogId", jsonStringForIntent.replace("\n", ""));
+                        startActivity(it);
+                    }
+                }
+                else {
+                    Intent it = new Intent(getApplicationContext(), BlogDetailActivity.class);
+                    it.putExtra("blogId", blogId);
+                    startActivity(it);
+                }
             }
         });
         /*
@@ -96,6 +143,43 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
     }
+    public String TomcatConnector(String urlString) {
 
+        StringBuilder html = new StringBuilder();
+        try {
+            URL url = new URL(urlString);
+
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
+            if(conn != null)
+            {
+                conn.setConnectTimeout(3000);
+                conn.setUseCaches(false);
+                if(conn.getResponseCode() == HttpURLConnection.HTTP_OK)
+                {
+                    BufferedReader br =  new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
+
+                    while (true)
+                    {
+                        String line = br.readLine();
+                        if(line == null) break;
+                        html.append(line+"\n");
+
+                    }
+                    br.close();
+                }
+                conn.disconnect();
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return html.toString();
+
+    }
 
 }
