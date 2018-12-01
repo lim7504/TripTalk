@@ -29,6 +29,53 @@ import java.util.ArrayList;
 public class mainViewAdapter extends BaseAdapter{
 
     Context context;
+    int bigdataCount = 0;
+    String cng1 = "빅데이터추천\n" + (UserInfomation.User_Age/10) * 10 +"대의 " + UserInfomation.User_Sex + "모여라!";
+    String cng2 = "빅데이터추천\n" + (UserInfomation.User_Age/10) * 10 +"대의 " + UserInfomation.User_Fun + "이(가) 취미 인사람~";
+    String[] bigdataString = {
+            "{\"blog_id\":\"bigdata_0\"," +
+                     "\"title\":\"빅데이터추천 TOP10\n많이가는 여행지\"," +
+                     "\"writer\":\"참여한 인원 - 89\"," +
+                     "\"img1\":\"none_image\"," +
+                     "\"date\":\"한달간 집계한 관광객이 가장 많은 여행지\"}",
+
+            "{\"blog_id\":\"bigdata_1\"," +
+                    "\"title\":\"빅데이터추천 TOP10\n조용한 여행지\"," +
+                    "\"writer\":\"참여한 인원 - 57\"," +
+                    "\"img1\":\"none_image\"," +
+                    "\"date\":\"한달간 집계한 관광객이 가장 적은 여행지\"}",
+
+            "{\"blog_id\":\"bigdata_2\"," +
+                    "\"title\":\"" + cng1 + "\"," +
+                    "\"writer\":\"참여한 인원 - 15\"," +
+                    "\"img1\":\"none_image\"," +
+                    "\"date\":\"또래, 같은 성별이 많이 갔던 여행지\"}",
+
+            "{\"blog_id\":\"bigdata_3\"," +
+                    "\"title\":\"" + cng2 + "\"," +
+                    "\"writer\":\"참여한 인원 - 20\"," +
+                    "\"img1\":\"none_image\"," +
+                    "\"date\":\"또래, 같은 취미의 사람들이 많이 갔던 여행지\"}",
+
+            "{\"blog_id\":\"bigdata_4\"," +
+                    "\"title\":\"빅데이터추천\n당신이 좋아할만한 여행지\"," +
+                    "\"writer\":\"참여한 인원 - 430\"," +
+                    "\"img1\":\"none_image\"," +
+                    "\"date\":\"최근 검색한 지역의 유사한 여행지\"}",
+
+            "{\"blog_id\":\"bigdata_5\"," +
+                    "\"title\":\"빅데이터추천\n당신이 좋아할만한 블로그\"," +
+                    "\"writer\":\"참여한 인원 - 755\"," +
+                    "\"img1\":\"none_image\"," +
+                    "\"date\":\"최근 방문한 블로그와 유사한 블로그\"}",
+
+            "{\"blog_id\":\"bigdata_6\"," +
+                    "\"title\":\"빅데이터추천\n당신이 좋아할만한 여행지2\"," +
+                    "\"writer\":\"참여한 인원 - 244\"," +
+                    "\"img1\":\"none_image\"," +
+                    "\"date\":\"같은 지역을 질문했던 유저들의 선호 지역\"}"
+
+    };
     static JSONArray jArray;
     private ArrayList<mainView> mainViewItem = new ArrayList<mainView>();
 
@@ -45,12 +92,44 @@ public class mainViewAdapter extends BaseAdapter{
                 Log.d("blgInfo", code);
                 if(code.equals("succ")){
                     jArray = jObject.getJSONArray("contents");
+
+
+                    JSONObject changeString = null;
+                    changeString = new JSONObject(bigdataString[0]);
+                    addToPos(1,changeString,jArray);
+                    changeString = new JSONObject(bigdataString[1]);
+                    addToPos(3,changeString,jArray);
+                    changeString = new JSONObject(bigdataString[2]);
+                    addToPos(5,changeString,jArray);
+                    changeString = new JSONObject(bigdataString[3]);
+                    addToPos(7,changeString,jArray);
+                    changeString = new JSONObject(bigdataString[4]);
+                    addToPos(9,changeString,jArray);
+                    changeString = new JSONObject(bigdataString[5]);
+                    addToPos(11,changeString,jArray);
+                    changeString = new JSONObject(bigdataString[6]);
+                    addToPos(13,changeString,jArray);
                 }else{
                     Log.d("USERINFO", "blog Not Working");
                 }
             }catch(Exception e){
                 e.printStackTrace();
             }
+    }
+
+    public void addToPos(int pos, JSONObject jsonObj, JSONArray jsonArr){
+        for (int i = jsonArr.length(); i > pos; i--){
+            try {
+                jsonArr.put(i, jsonArr.get(i-1));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            jsonArr.put(pos, jsonObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -77,6 +156,8 @@ public class mainViewAdapter extends BaseAdapter{
         //final Context context = parent.getContext();
 
         View v;
+        bigdataCount++;
+
         if (convertView == null) {  // if it's not recycled, initialize some attributes
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE );
             v = inflater.inflate(R.layout.mainview, parent, false);
