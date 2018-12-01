@@ -81,10 +81,13 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            if(successFlag.contains("Success") == true)
-                Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
+//            if(successFlag.contains("Success") == true)
+//                Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
+//            else
+//                Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
+
+            if(result >= 4)
+                GetQuestionAreaDetail();
 
         }
     };
@@ -146,7 +149,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 arr.clear();
 
-                new Thread(new Runnable() {
+                Thread th2 = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -164,13 +167,28 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                                     selectList.setVisibility(View.GONE);
                                     resultText.setText(str);
                                     resultText.setVisibility(View.VISIBLE);
+
+                                    handler.sendEmptyMessage(0);
+
+
                                 }
                             }
                         });
                     }
-                }).start();
+                });
+                th2.start();
+
+                try {
+                    th2.join();
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -191,6 +209,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 selectList.setVisibility(View.VISIBLE);
                 resultAddress.setText("");
                 editText.setText("");
+                resultText.setText("");
                 searchAddress.setVisibility(View.GONE);
             }
         });
@@ -233,7 +252,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                         }catch (Exception e) {
                             successFlag = "Fail";
                         }
-                        handler.sendEmptyMessage(0);
+
                     }
                 });
                 th.start();
@@ -295,6 +314,35 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
+
+    public void GetQuestionAreaDetail()
+    {
+        Thread th3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionAreaDetail.jsp?";
+                    urlString += "QUESTION_AREA=" + resultText.getText().toString();
+
+                    jsonString = TomcatConnector(urlString);
+                    JSONArray arr = new JSONArray(jsonString);
+
+                    for (int i = 0; i < arr.length(); i++)
+                    {
+                        JSONObject obj = arr.getJSONObject(i);
+                        Log.d("QUESTION_AREA_DETAIL", obj.get("QUESTION_AREA_DETAIL").toString());
+                    }
+                }catch (Exception e) {
+                    successFlag = "Fail";
+                }
+            }
+        });
+        th3.start();
+
+    }
+
 
     private void callFragment(int frament_no) {
 
@@ -538,24 +586,19 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                             try {
 
                                 String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionAreaDetail.jsp?";
-                                urlString += "&QUESTION_AREA=" + resultAddress.getText().toString();
+                                urlString += "QUESTION_AREA=" + resultAddress.getText().toString();
 
                                 jsonString = TomcatConnector(urlString);
                                 JSONArray arr = new JSONArray(jsonString);
 
                                 for (int i = 0; i < arr.length(); i++)
                                 {
-                                    if (i == 10)
-                                        break;
-
                                     JSONObject obj = arr.getJSONObject(i);
-
-                                     obj.get("QUESTION_AREA_DETAIL").toString();//대규야 여기꺼 넣으면 된당!!!
+                                    Log.d("QUESTION_AREA_DETAIL", obj.get("QUESTION_AREA_DETAIL").toString());
                                 }
                             }catch (Exception e) {
                                 successFlag = "Fail";
                             }
-                            handler.sendEmptyMessage(0);
                         }
                     });
                     th.start();
