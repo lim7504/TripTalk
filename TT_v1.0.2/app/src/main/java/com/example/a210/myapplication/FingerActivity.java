@@ -29,6 +29,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -62,7 +64,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
     String key3="ED57FE12-D1BD-30C1-83B1-82C3FFB9AF92&domain=http://www.test.com&";
     String str = "first";
     String successFlag;
-
+    String jsonString;
     String[] sido = {"LT_C_ADSIDO_INFO","ctp_kor_nm"};
     String[] sgg = {"LT_C_ADSIGG_INFO","sig_kor_nm"};
     String[] emd = {"LT_C_ADEMD_INFO","emd_kor_nm"};
@@ -528,6 +530,43 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                         Log.d("동",dong);
                     }
                     resultAddress.setText(dong);
+
+                    Thread th = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+
+                                String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionAreaDetail.jsp?";
+                                urlString += "&QUESTION_AREA=" + resultAddress.getText().toString();
+
+                                jsonString = TomcatConnector(urlString);
+                                JSONArray arr = new JSONArray(jsonString);
+
+                                for (int i = 0; i < arr.length(); i++)
+                                {
+                                    if (i == 10)
+                                        break;
+
+                                    JSONObject obj = arr.getJSONObject(i);
+
+                                     obj.get("QUESTION_AREA_DETAIL").toString();//대규야 여기꺼 넣으면 된당!!!
+                                }
+                            }catch (Exception e) {
+                                successFlag = "Fail";
+                            }
+                            handler.sendEmptyMessage(0);
+                        }
+                    });
+                    th.start();
+
+                    try {
+                        th.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
 
                     String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
                     String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도

@@ -3,6 +3,7 @@ package Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -29,6 +30,15 @@ public class MongoDB_Insert
 		MongoDatabase db =  mongo.getDatabase("TRIPTALK");	
 		MongoCollection<Document> collFinger = db.getCollection("FINGER");
 
+		Calendar now = Calendar.getInstance();
+
+		int yy = now.get(Calendar.YEAR);
+		int mm = now.get(Calendar.MONTH);
+		int dd = now.get(Calendar.DAY_OF_MONTH);
+
+		String nowDate = yy + "-" + mm + "-" + dd;
+
+		
 		
 		Document doc = new Document("LOG_CODE", "AREA")
 							.append("USER_ID", user_id)
@@ -39,7 +49,8 @@ public class MongoDB_Insert
 							.append("QUESTION_AREA_DETAIL", question_area_detail)
 							.append("TENDENCY1", tendency1)
 							.append("TENDENCY2", tendency2)
-							.append("TENDENCY3", tendency3);
+							.append("TENDENCY3", tendency3)
+							.append("CREATE_DATE", nowDate);
 		
 			
 		collFinger.insertOne(doc);

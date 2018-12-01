@@ -16,8 +16,8 @@ import java.util.List;
 public class ConnectDB {
 	// 占싱깍옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占� 占싹깍옙占쏙옙 占쏙옙 占쌘듸옙占�
 	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	//String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
-	String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
+	String url = "jdbc:sqlserver://lim7504.iptime.org:1433;databaseName=TEST_DB;user=guest;password=1234;";
+	//String url = "jdbc:sqlserver://localhost:1433;databaseName=TEST_DB;user=sa;password=1;";
  	private final String dbId = "sa";
  	private final String dbPw = "1";
 	private Connection conn = null;
