@@ -3,9 +3,9 @@ package com.example.a210.myapplication;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button button,finalSelectBtn;
     private EditText editText;
     private TextView resultAddress;
+    MarkerOptions  mOptions2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent getIt = getIntent();
+        String searchAddress = getIt.getStringExtra("search address");
+
+        if(!searchAddress.isEmpty())
+        {
+            finalSelectBtn.setVisibility(View.INVISIBLE);
+            editText.setText(searchAddress);
+            button.performClick();
+        }else
+        {
+            finalSelectBtn.setVisibility(View.VISIBLE);
+        }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     /**
      * Manipulates the map once available.
@@ -82,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v){
                 String str=editText.getText().toString();
+
                 List<Address> addressList = null;
                 try {
                     // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
@@ -109,28 +129,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
                 System.out.println(latitude);
                 System.out.println(longitude);
+                mapAsync mapasync = new mapAsync();
 
-                // 좌표(위도, 경도) 생성
-                LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                // 마커 생성
-                MarkerOptions mOptions2 = new MarkerOptions();
-                mOptions2.title("search result");
-                mOptions2.snippet(address);
-                mOptions2.position(point);
-                // 마커 추가
-                mMap.clear();
-                mMap.addMarker(mOptions2);
-                // 해당 좌표로 화면 줌
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
-            }
+                try {
+                    mOptions2 = mapasync.execute(address, latitude, longitude).get();
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+                }
         });
         ////////////////////
 
-        // Add a marker in Sydney and move the camera
+         //Add a marker in Sydney and move the camera
+        /*
         LatLng sichong = new LatLng(37.5662952, 126.9779451);
         mMap.addMarker(new MarkerOptions().position(sichong).title("서울특별시 시청"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sichong));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sichong,15));
+*/
+
 
         finalSelectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,9 +158,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     return;
                 }
                 intent.putExtra("address", resultAddress.getText());
+                intent.putExtra("position", mOptions2.getPosition().toString());
+
                 setResult(100, intent);
                 finish();
             }
         });
+    }
+
+    public class mapAsync extends AsyncTask<String, String, MarkerOptions> {
+        @Override
+        protected void onPostExecute(MarkerOptions markerOptions) {
+            super.onPostExecute(markerOptions);
+            mMap.clear();
+            mMap.addMarker(mOptions2);
+            // 해당 좌표로 화면 줌
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mOptions2.getPosition()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOptions2.getPosition(), 15));
+        }
+
+        //JS
+        @Override
+        protected MarkerOptions doInBackground(String... strings) {
+            String latitude = strings[1];
+            String longitude = strings[2];
+            String address = strings[0];
+
+            final LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+            // 마커 생성
+            mOptions2 = new MarkerOptions();
+            mOptions2.title("search result");
+            mOptions2.snippet(address);
+            mOptions2.position(point);
+
+            return mOptions2;
+        }
     }
 }

@@ -17,6 +17,7 @@ public class ChatMsgFromDBAsync extends AsyncTask<String, String, String> {
         try {
             String str;
             URL url = new URL( "http://lim7504.iptime.org:8080/TripTalkWebServer/ChatMsgFromDB.jsp");
+            //URL url = new URL( "http://10.0.2.2:8080/TripTalkWebServer/ChatMsgFromDB.jsp");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestMethod("POST");

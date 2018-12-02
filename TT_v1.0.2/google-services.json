@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "410322468277",
-    "firebase_url": "https://jinsu-5be2b.firebaseio.com",
-    "project_id": "jinsu-5be2b",
-    "storage_bucket": "jinsu-5be2b.appspot.com"
+    "project_number": "1053930826827",
+    "firebase_url": "https://triptalk-224306.firebaseio.com",
+    "project_id": "triptalk-224306",
+    "storage_bucket": "triptalk-224306.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:410322468277:android:929f092edfa05372",
+        "mobilesdk_app_id": "1:1053930826827:android:929f092edfa05372",
         "android_client_info": {
           "package_name": "com.example.a210.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "410322468277-k874nsh0q43lgffgivhgmqedg9p3b88d.apps.googleusercontent.com",
+          "client_id": "1053930826827-jvj5pro19ivj8jait7sv4qqlohl62trp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a210.myapplication",
+            "certificate_hash": "bee46885a57eddb909abbb5b1a2982e6ace69598"
+          }
+        },
+        {
+          "client_id": "1053930826827-tr6stbkvu1p4f5boc0fga6skg2eojeh7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAxlV0vz0NTT9LhtbbePtrp-M_fBcCuDAM"
+          "current_key": "AIzaSyCdgNja2oFc-SBzYJClBczJIamVmiCn2WM"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053930826827-tr6stbkvu1p4f5boc0fga6skg2eojeh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

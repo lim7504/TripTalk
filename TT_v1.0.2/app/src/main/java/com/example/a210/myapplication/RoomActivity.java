@@ -76,6 +76,7 @@ public class RoomActivity extends AppCompatActivity {
     Thread catchThread = null;
     ImageButton btnFinalSelect = null;
     String sCreate = "False";
+    String sRequestUser = "";
 
     @Override
     protected void onStop() {
@@ -102,11 +103,10 @@ public class RoomActivity extends AppCompatActivity {
         //String
 
         //   if (UserInfomation.User_NickName.isEmpty() || UserInfomation.User_NickName.equals("")) {
-        UserInfomation.User_NickName = itRoom.getStringExtra("nick");
+        //UserInfomation.User_NickName = itRoom.getStringExtra("nick");
 
 
         //    }
-        Log.i("getIntent", UserInfomation.User_NickName);
         /*
         getIntentItem.setNick(itRoom.getStringExtra("nick"));
         getIntentItem.setGrade(itRoom.getStringExtra("grade"));
@@ -119,10 +119,11 @@ public class RoomActivity extends AppCompatActivity {
         chatScroll = (ScrollView) findViewById(R.id.chatScroll);
         btnFinalSelect = (ImageButton) findViewById(R.id.finalSelect);
 
-        setNick.setText(UserInfomation.User_NickName);
-        setGrade.setText(itRoom.getStringExtra("subTitle"));
-        strSubTitle = itRoom.getStringExtra("grade");
+        setNick.setText(UserInfomation.User_ID);
 
+        sRequestUser = itRoom.getStringExtra("nick");
+        setGrade.setText(sRequestUser+"("+itRoom.getStringExtra("subTitle")+")");
+        strSubTitle = itRoom.getStringExtra("grade");
         sCreate = itRoom.getStringExtra("create");
 
         final View activityRootView = findViewById(R.id.roomLayout);
@@ -223,12 +224,14 @@ public class RoomActivity extends AppCompatActivity {
         btnFinalSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(setNick.getText().toString().equals(UserInfomation.User_ID))
+
+                if(setNick.getText().toString().compareTo(sRequestUser) == 0)
                 {
                     //질문자는 제외 시키기
                     return ;
                 }
                 Intent it = new Intent(getApplicationContext(), MapsActivity.class);
+                it.putExtra("search address","");
                 startActivityForResult(it,0);
             }
         });
@@ -242,16 +245,16 @@ public class RoomActivity extends AppCompatActivity {
             public void run() {
                 try
                 {
-                    setNick.setText(UserInfomation.User_NickName);
-                    setGrade.setText(itRoom.getStringExtra("subTitle"));
-                    strSubTitle = itRoom.getStringExtra("grade");
+                    setNick.setText(UserInfomation.User_ID);
+                 //   setGrade.setText(itRoom.getStringExtra("subTitle"));
+                 //   strSubTitle = itRoom.getStringExtra("grade");
 
                     String jsonString;
                     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss", Locale.KOREA );
                     Date currentTime = new Date ();
                     String mTime = mSimpleDateFormat.format ( currentTime );
 
-                    String urlString = getString(R.string.url_Server)+"/TripTalkWebServer/ChatRoomManager.jsp?";
+                    String urlString = getString(R.string.url_Server)+"/ChatRoomManager.jsp?";
                     urlString += "&ROOM_ID=" + UserInfomation.Wait_ID;
                     urlString += "&REQUEST_USER_ID=" + setNick.getText();
                     urlString += "&RECEIVE_USER_ID=" + UserInfomation.User_ID;
@@ -260,7 +263,17 @@ public class RoomActivity extends AppCompatActivity {
 
                     jsonString = TomcatConnector(urlString);
                     JSONArray arr = new JSONArray(jsonString);
+                    Boolean bAlreadSelect = false;
 
+                    for (int i = 0; i < arr.length(); i++) {
+                        JSONObject obj = arr.getJSONObject(i);
+                        String IS_CHOOSE = obj.getString("IS_CHOOSE");
+
+                        if(IS_CHOOSE.compareTo("9") == 0)
+                        {
+                            bAlreadSelect = true;
+                        }
+                    }
                     for (int i = 0; i < arr.length(); i++) {
                         JSONObject obj = arr.getJSONObject(i);
 
@@ -271,6 +284,14 @@ public class RoomActivity extends AppCompatActivity {
                         String IS_CHOOSE = obj.getString("IS_CHOOSE");
 
                         Log.e("jinsu111",obj.toString());
+
+                        if(bAlreadSelect)
+                        {
+                            if(IS_CHOOSE.compareTo("3") == 0) {
+                                IS_CHOOSE = "4";
+                            }
+                        }
+
                         InsertChatMessage(CHAT_SENDER_ID,CHAT_MESSAGE,IS_CHOOSE);
                     }
                 }
@@ -309,9 +330,6 @@ public class RoomActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
-
         String addressGet = "";
 
         switch (resultCode) {
@@ -345,6 +363,7 @@ public class RoomActivity extends AppCompatActivity {
 
         ChattingAysnc chattingAysnc = new ChattingAysnc();
         try {
+            addressGet = "추천 장소(주소) : " + addressGet;
             String strResult = chattingAysnc.execute(UserInfomation.Wait_ID, UserInfomation.User_ID, addressGet, mTime, "3").get();
 
             if (strResult.equals("ACK")) {
@@ -371,12 +390,22 @@ public class RoomActivity extends AppCompatActivity {
 
         if((int)topV2.getTag() != 3)
         {
-            topV2.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            if((int)topV2.getTag() != 9) {
+                topV2.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            }
+            else {
+                topV2.setBackgroundColor(Color.RED);
+            }
         }else
         {
             topV2.setBackgroundColor(Color.GREEN);
         }
+        appendEvent(topV2);
+        chattingView.addView(topV2);
+    }
 
+    void appendEvent(final TextView topV2)
+    {
         topV2.setOnClickListener(new View.OnClickListener() {
             //JS
             @Override
@@ -384,9 +413,10 @@ public class RoomActivity extends AppCompatActivity {
                 final TextView tv = (TextView) view;
 
                 if ((int) tv.getTag() != 3) {
-                    if ((int) tv.getTag() == 99) {
+                    if ((int) tv.getTag() == 9 || (int) tv.getTag() == 4) {
                         Toast.makeText(RoomActivity.this, "이미 채택 하셨습니다!", Toast.LENGTH_SHORT).show();
                     }
+                    System.out.println("tag is not 3");
                     return;
                 }
 
@@ -397,13 +427,15 @@ public class RoomActivity extends AppCompatActivity {
 
                 SelectAnswer.add("예");
                 SelectAnswer.add("아니오");
-
+                SelectAnswer.add("위치 보기");
                 final CharSequence[] items = SelectAnswer.toArray(new String[SelectAnswer.size()]);
 
 
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int pos) {
+
+                        String sTemp = topV2.getText().toString();
 
                         if (pos == 0) {
                             String strRoomID = "1";
@@ -419,18 +451,22 @@ public class RoomActivity extends AppCompatActivity {
                                 String strResult = chooseAysnc.execute(UserInfomation.User_ID, UserInfomation.Wait_ID, QUOSTION_TYPE, QUOTATION_CONTENS, mTime).get();
 
                                 if (strResult.equals("ACK")) {
-                                    topV2.setBackgroundColor(Color.RED);
+                                 //   topV2.setBackgroundColor(Color.RED);
 
                                     ChattingAysnc chattingAysnc = new ChattingAysnc();
 
                                     try {
-                                        String sTemp = topV2.getText().toString();
+
                                         sTemp = sTemp +" 채택!.";
                                         mSimpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
                                         currentTime = new Date();
                                         mTime = mSimpleDateFormat.format(currentTime);
 
-                                        strResult = chattingAysnc.execute(UserInfomation.Wait_ID, UserInfomation.User_ID, sTemp, mTime, "99").get();
+                                        strResult = chattingAysnc.execute(UserInfomation.Wait_ID, UserInfomation.User_ID, sTemp, mTime, "9").get();
+                                        if(strResult.compareTo("ACK") ==0)
+                                        {
+                                            InsertChatMessage(UserInfomation.User_ID,sTemp,"9");
+                                        }
                                     }catch (Exception e)
                                     {
                                         e.printStackTrace();
@@ -438,7 +474,7 @@ public class RoomActivity extends AppCompatActivity {
 
                                     Toast.makeText(RoomActivity.this, "채택이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
 
-                                    tv.setTag(3);//재등록 방지용
+                                    tv.setTag(9);//재등록 방지용
                                 } else if (strResult.equals("WNACK")) {
                                     Toast.makeText(RoomActivity.this, "답변자는 채택을 할 수 없습니다.", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -448,6 +484,13 @@ public class RoomActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+                        }else if(pos == 2)
+                        {
+                            Intent intent2 = new Intent(getApplicationContext(),MapsActivity.class);
+                            sTemp= sTemp.substring(12,sTemp.length());
+                            intent2.putExtra("search address",sTemp);
+                            startActivity(intent2);
+
                         }
                     }
                 });
@@ -455,16 +498,15 @@ public class RoomActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-        chattingView.addView(topV2);
     }
-
     public class ChattingAysnc extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
             try {
                 String str;
                 URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ChatMsgtoDB.jsp");
-                // URL url = new URL("http://192.168.0.5:8080/TTServer/ChatMsgtoDB.jsp");
+
+               // URL url = new URL("http://10.0.2.2:8080/TripTalkWebServer/ChatMsgtoDB.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -505,7 +547,7 @@ public class RoomActivity extends AppCompatActivity {
             try {
                 String str;
                 URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ChoosetoDB.jsp");
-                // URL url = new URL("http://192.168.0.5:8080/TTServer/ChoosetoDB.jsp");
+               // URL url = new URL("http://10.0.2.2:8080/TripTalkWebServer/ChoosetoDB.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -601,7 +643,7 @@ public class RoomActivity extends AppCompatActivity {
             try {
                 String str;
                 URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ChatRoomManagerforRemove.jsp");
-                // URL url = new URL("http://192.168.0.5:8080/TTServer/ChoosetoDB.jsp");
+                //URL url = new URL("http://10.0.2.2:8080/TripTalkWebServer/ChatRoomManagerforRemove.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -637,7 +679,7 @@ public class RoomActivity extends AppCompatActivity {
 
     private void InsertChatMessage(String CHAT_SENDER_ID,String CHAT_MESSAGE,String IS_CHOOSE)
     {
-        if(UserInfomation.User_ID.equals(CHAT_SENDER_ID))
+        if(UserInfomation.User_ID.compareTo(CHAT_SENDER_ID) == 0)
         {
             LinearLayout chattingView = (LinearLayout) findViewById(R.id.chattingView);
             TextView topTV1 = new TextView(RoomActivity.this);
@@ -649,10 +691,10 @@ public class RoomActivity extends AppCompatActivity {
             topTV1.setTextColor(Color.parseColor("#000000"));
             topTV1.setTextSize(20);
 
-            if(IS_CHOOSE.equals("99"))
+            if(IS_CHOOSE.equals("9"))
             {
                 topTV1.setBackgroundColor(Color.RED);
-                topTV1.setTag(3);
+                topTV1.setTag(9);
                 topTV1.setText(CHAT_MESSAGE);
                 chattingView.addView(topTV1);
             }else
@@ -675,16 +717,24 @@ public class RoomActivity extends AppCompatActivity {
             topV2.setPadding(12, 12, 12, 12);
             topV2.setTextSize(20);
 
-            if(IS_CHOOSE.equals("3"))
+            if(IS_CHOOSE.equals("9"))
             {
                 topV2.setBackgroundColor(Color.RED);
-                topV2.setTag(3);
+                topV2.setTag(9);
                 topV2.setText(CHAT_MESSAGE);
             }else
             {
 
-                topV2.setBackgroundColor(Color.WHITE);
-                topV2.setTag(2);
+
+                if(IS_CHOOSE.compareTo("3") == 0 || IS_CHOOSE.compareTo("4") == 0) {
+                    topV2.setTag(Integer.parseInt(IS_CHOOSE));
+                    topV2.setBackgroundColor(Color.GREEN);
+                }else
+                {
+                    topV2.setTag(2);
+                    topV2.setBackgroundColor(Color.WHITE);
+                }
+                appendEvent(topV2);
                 topV2.setText(CHAT_MESSAGE);
             }
 

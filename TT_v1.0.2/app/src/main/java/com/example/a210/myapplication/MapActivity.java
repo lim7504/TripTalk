@@ -63,7 +63,7 @@ public class MapActivity extends FragmentActivity {
                         try
                         {
                             String jsonString;
-                            String urlString = getResources().getString(R.string.url_Server)+"/TripTalkWebServer/QuestionSelectForMy.jsp?";
+                            String urlString = getResources().getString(R.string.url_Server)+"/QuestionSelectForMy.jsp?";
                             urlString += "USER_ID=" + UserInfomation.User_ID;
                             urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
                             urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
@@ -189,6 +189,9 @@ public class MapActivity extends FragmentActivity {
                     return;
                 }
 
+                UserInfomation.SearchArea = myLocation.getText().toString();
+
+                UserInfomation.SearchSubJect = etcEditText.getText().toString();
 
                 Thread th = new Thread(new Runnable() {
                     @Override

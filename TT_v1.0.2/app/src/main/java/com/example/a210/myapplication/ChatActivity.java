@@ -85,7 +85,7 @@ public class ChatActivity extends AppCompatActivity{
                     try
                     {
                         String jsonString;
-                        String urlString = getString(R.string.url_Server)+"/TripTalkWebServer/QuestionSelect.jsp?";
+                        String urlString = getString(R.string.url_Server)+"/QuestionSelect.jsp?";
                         urlString += "USER_ID=" + UserInfomation.User_ID;
                         urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
                         urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
@@ -138,7 +138,7 @@ public class ChatActivity extends AppCompatActivity{
                             Date currentTime = new Date ();
                             String mTime = mSimpleDateFormat.format ( currentTime );
 
-                            String urlString = getString(R.string.url_Server)+"/TripTalkWebServer/ChatRoomManager.jsp?";
+                            String urlString = getString(R.string.url_Server)+"/ChatRoomManager.jsp?";
                             urlString += "&ROOM_ID=" + adapter.getChatViewItem(iRoomNumber).getWaitID();
                             urlString += "&REQUEST_USER_ID=" + adapter.getChatViewItem(iRoomNumber).getNick();
                             urlString += "&RECEIVE_USER_ID=" + UserInfomation.User_ID;
@@ -160,10 +160,10 @@ public class ChatActivity extends AppCompatActivity{
 
                                     //if(bResult) {
                                     Intent it = new Intent(getApplicationContext(), RoomActivity.class);
-                                    Log.i("getItem", adapter.getChatViewItem(i).getNick());
-                                    it.putExtra("nick", adapter.getChatViewItem(i).getNick().toString());
-                                    it.putExtra("grade", adapter.getChatViewItem(i).getGrade().toString());//등급대신 subtitle로 사용중
-                                    it.putExtra("subTitle", adapter.getChatViewItem(i).getSubTitle() .toString()); //subtitle 대신 title로 사용 중
+                                    Log.i("getItem", adapter.getChatViewItem(iRoomNumber).getNick());
+                                    it.putExtra("nick", adapter.getChatViewItem(iRoomNumber).getNick().toString());
+                                    it.putExtra("grade", adapter.getChatViewItem(iRoomNumber).getGrade().toString());//등급대신 subtitle로 사용중
+                                    it.putExtra("subTitle", adapter.getChatViewItem(iRoomNumber).getSubTitle() .toString()); //subtitle 대신 title로 사용 중
                                     it.putExtra("create", "True");
                                     startActivity(it);
                                     // }
