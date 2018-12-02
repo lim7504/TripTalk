@@ -417,7 +417,8 @@ public class MongoDB_SelectForAlikeArea
 				   for (Model model : listModel) {
 			        	
 					   int index = listModel.indexOf(model) + 1;
-					   str += "\n    " +  index  + ". " + model.GetQuestionAreaDetail();
+//					   str += "\n    " +  index  + ". " + model.GetQuestionAreaDetail();
+					   str += "\n   [" + model.GetQuestionAreaDetail() + "]";
 			        }
 				   
 				   str += "\n\n가 있습니다.";

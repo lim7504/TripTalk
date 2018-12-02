@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.util.Linkify;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -12,6 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BigdataActivityStatisticsForString extends AppCompatActivity{
     TextView statisticsForStringTextView;
@@ -26,6 +29,46 @@ public class BigdataActivityStatisticsForString extends AppCompatActivity{
         String  str = itGet.getStringExtra("str").toString();
 
         statisticsForStringTextView.setText(str);
+
+        Linkify.TransformFilter mTransform = new Linkify.TransformFilter()
+        {
+            @Override public String transformUrl(Matcher match, String url)
+            {
+                return "";
+            }
+        };
+
+        List<Pattern> patternList = new ArrayList<>();
+        String patternString = "";
+        boolean wordOpenFlag = false;
+        for(int i = 0; i < str.length(); i ++)
+        {
+            if(str.charAt(i) == '[')
+            {
+                wordOpenFlag = true;
+            }
+            else if(str.charAt(i) == ']')
+            {
+                wordOpenFlag = false;
+
+                patternString += ']';
+                Pattern pattern = Pattern.compile(patternString);
+                patternList.add(pattern);
+                patternString = "";
+            }
+
+            if(wordOpenFlag == true)
+            {
+                patternString += str.charAt(i);
+
+            }
+        }
+
+        for (Pattern pattern: patternList)
+        {
+            Linkify.addLinks(statisticsForStringTextView, pattern, "http://search.naver.com/search.naver?query=" + pattern.toString().replace("[","").replace("]",""),null,mTransform);
+        }
+
 
 
         callFragment(1);
