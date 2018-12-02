@@ -41,12 +41,39 @@ public class ChatActivity extends AppCompatActivity{
         final ChatViewAdapter adapter = new ChatViewAdapter();
 
         chatList.setAdapter(adapter);
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try
+                {
+                    String jsonString;
+                    String urlString = getString(R.string.url_Server)+"/QuestionSelect.jsp?";
+                    urlString += "USER_ID=" + UserInfomation.User_ID;
+                    urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
+                    urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
+                    jsonString = TomcatConnector(urlString);
 
+                    JSONArray arr = new JSONArray(jsonString);
+
+                    for (int i = 0; i < arr.length(); i++) {
+                        JSONObject obj = arr.getJSONObject(i);
+
+                        adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), obj.get("NICK").toString(),
+                                obj.get("GRADE").toString(), obj.get("SUBTITLE").toString(),obj.get("WAIT_ID").toString());
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        });
+        th.start();
+        /*
         if(itGet.getStringExtra("sep").toString().equals("quest")) {
 
             //질문자가 채팅 방 목록에 들어 왔을 경우 처리
             //질문자가 들어면 어떤 방을 보여줘야 하는건지???
-            /*
+
             Thread th = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -75,53 +102,10 @@ public class ChatActivity extends AppCompatActivity{
                 }
             });
             th.start();
-            */
-        } else if(itGet.getStringExtra("sep").toString().equals("dap")) {
 
-
-            Thread th = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try
-                    {
-                        String jsonString;
-                        String urlString = getString(R.string.url_Server)+"/QuestionSelect.jsp?";
-                        urlString += "USER_ID=" + UserInfomation.User_ID;
-                        urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
-                        urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
-                        jsonString = TomcatConnector(urlString);
-
-                        JSONArray arr = new JSONArray(jsonString);
-
-                        for (int i = 0; i < arr.length(); i++) {
-                            JSONObject obj = arr.getJSONObject(i);
-
-                            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), obj.get("NICK").toString(),
-                                    obj.get("GRADE").toString(), obj.get("SUBTITLE").toString(),obj.get("WAIT_ID").toString());
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
-            });
-            th.start();
-
-
-//            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), "리신",
-//                    "여행코스", "어디로... 가야하오");
-//            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), "직거래 살인마",
-//                    "관광지", "중고 직거래 가능한 어둡고 아무도 다니지 않는 장소");
-//            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), "한지우",
-//                    "레포츠", "속초에 망나뇽 나오는 곳이 어디죠");
-//            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), "김정호",
-//                    "여행코스", "한반도 최단 거리 코스 좀 알려주세요");
-//            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), "고든 램지",
-//                    "음식점", "어제 한 음식점이 내 혀를 조져놨어요 제대로 된 음식점을 알려주세요");
-//            adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), "남조선 국민",
-//                    "문화시설", "고조 청와대로 가려면 우찌해야합네까 동무");
+                   } else if(itGet.getStringExtra("sep").toString().equals("dap")) {
         }
-
+*/
         chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Boolean bResult = false;
             @Override
