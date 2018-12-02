@@ -42,6 +42,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FingerActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -52,13 +53,14 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
     private EditText editText;
 
     ListView selectList;
-    TextView resultText,resultAddress;
+    TextView resultText,resultAddress,recommendAddress;
     Button selectButton,btnSearch,btnFinger;
     Intent it,itGet;
     EditText etcEditText;
-    Spinner subjectSpinner;
-    ArrayAdapter subjectAdapter;
+    Spinner subjectSpinner,recommendSpinner;
+    ArrayAdapter subjectAdapter,recommendAdapter;
     RelativeLayout searchAddress;
+    LinearLayout recommendLayout;
     Fragment map;
     public static TextView itGetTextView;
     String key3="ED57FE12-D1BD-30C1-83B1-82C3FFB9AF92&domain=http://www.test.com&";
@@ -70,6 +72,8 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
     String[] emd = {"LT_C_ADEMD_INFO","emd_kor_nm"};
     String filter_sido = "attrFilter=ctp_kor_nm:like:";
     String filter_etc = "attrFilter=full_nm:like:";
+    ArrayList<String> recommendArray =  new ArrayList<String>(Arrays.asList("주소를 검색하세요."));
+    static ArrayList<String> recommendArrayJson =  new ArrayList<String>();
 
     ArrayList<String> arr = new ArrayList<>();
 
@@ -92,6 +96,21 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     };
 
+    Handler handler2 = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            recommendAdapter.clear();
+            recommendAdapter.add("추천 지역 선택");
+            for (int i = 0; i < recommendArrayJson.size(); i++)
+            {
+                recommendAdapter.add(recommendArrayJson.get(i).toString());
+            }
+        }
+    };
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finger);
@@ -102,17 +121,40 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         selectList = (ListView)findViewById(R.id.selectList);
         resultText = (TextView)findViewById(R.id.resultText);
         resultAddress = (TextView)findViewById(R.id.resultAddress);
+        recommendAddress = (TextView)findViewById(R.id.recommendAddress);
         selectButton = (Button)findViewById(R.id.selectButton);
         subjectSpinner = (Spinner)findViewById(R.id.subjectSpinner);
+        recommendSpinner = (Spinner)findViewById(R.id.recommendSpinner);
         etcEditText = (EditText)findViewById(R.id.etcEditText);
         itGetTextView = (TextView)findViewById(R.id.itGetTextView);
         btnSearch = (Button)findViewById(R.id.btnSearch);
         btnFinger = (Button)findViewById(R.id.btnFinger);
         searchAddress = (RelativeLayout)findViewById(R.id.searchAddress);
+        recommendLayout = (LinearLayout)findViewById(R.id.recommendLayout);
         itGet = getIntent();
 
         subjectAdapter = ArrayAdapter.createFromResource(this, R.array.subject, android.R.layout.simple_spinner_dropdown_item);
         subjectSpinner.setAdapter(subjectAdapter);
+        recommendAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, recommendArray);
+        recommendSpinner.setAdapter(recommendAdapter);
+
+        recommendSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                recommendAddress.setText(adapterView.getItemAtPosition(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        if(itGet.getStringExtra("sep").equals("dap")) {
+            recommendLayout.setVisibility(View.GONE);
+        } else if(itGet.getStringExtra("sep").equals("quest")){
+            recommendLayout.setVisibility(View.VISIBLE);
+        }
 
         new Thread(new Runnable() {
             @Override
@@ -168,9 +210,27 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                                     resultText.setText(str);
                                     resultText.setVisibility(View.VISIBLE);
 
+//                                    try {
+//
+//                                        String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionAreaDetail.jsp?";
+//                                        urlString += "QUESTION_AREA=" + resultText.getText().toString();
+//
+//                                        jsonString = TomcatConnector(urlString);
+//                                        JSONArray jarr = new JSONArray(jsonString);
+//
+//                                        for (int i = 0; i < jarr.length(); i++)
+//                                        {
+//                                            JSONObject obj = jarr.getJSONObject(i);
+//                                            Log.d("QUESTION_AREA_DETAIL", obj.get("QUESTION_AREA_DETAIL").toString());
+//                                            recommendAdapter.add(obj.get("QUESTION_AREA_DETAIL").toString());
+//                                        }
+//                                        recommendAdapter.notifyDataSetChanged();
+//                                        Log.d("스피너 로그123","success");
+//                                    }catch (Exception e) {
+//                                        successFlag = "Fail";
+//                                    }
+
                                     handler.sendEmptyMessage(0);
-
-
                                 }
                             }
                         });
@@ -200,6 +260,8 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 selectList.setVisibility(View.GONE);
                 resultText.setText("");
                 searchAddress.setVisibility(View.VISIBLE);
+                recommendAdapter.clear();
+                recommendAdapter.add("주소를 검색하세요.");
             }
         });
 
@@ -211,6 +273,8 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 editText.setText("");
                 resultText.setText("");
                 searchAddress.setVisibility(View.GONE);
+                recommendAdapter.clear();
+                recommendAdapter.add("주소를 검색하세요.");
             }
         });
 
@@ -242,7 +306,10 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                             String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionRegist.jsp?";
                             urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
                             urlString += "&QUESTION_CONTENS=" + etcEditText.getText().toString();
-                            urlString += "&QUESTION_AREA=" + resultText.getText().toString();
+                            if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
+                                urlString += "&QUESTION_AREA=" + resultText.getText().toString();
+                            else
+                                urlString += "&QUESTION_AREA=" + recommendAddress.getText().toString();
                             urlString += "&QUESTION_AREA_DETAIL=" + "TEST".toString();
                             urlString += "&QUESTION_SUBJECT=" + subjectSpinner.getSelectedItem().toString();
                             urlString += "&ISQUESTION=Y";
@@ -264,16 +331,26 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 }
 
                 UserInfomation.SearchSubJect =  subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
-                UserInfomation.SearchArea = resultText.getText().toString();
+
+                if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
+                    UserInfomation.SearchArea = resultText.getText().toString();
+                else
+                    UserInfomation.SearchArea = recommendAddress.getText().toString();
 
                 it = new Intent(getApplicationContext(),ChatActivity.class);
                 if(resultAddress.getText().equals("")) {
-                    it.putExtra("Location",resultText.getText());
+                    if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
+                        it.putExtra("Location",resultText.getText());
+                    else
+                        it.putExtra("Location",recommendAddress.getText());
                 } else if(resultText.getText().equals("")) {
                     addressSplit = resultAddress.getText().toString().substring(5,resultAddress.getText().toString().length());
                     addressArray = addressSplit.split(" ");
                     if(addressArray.length <= 2)
-                        it.putExtra("Location",resultAddress.getText());
+                        if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
+                            it.putExtra("Location",resultAddress.getText());
+                        else
+                            it.putExtra("Location",recommendAddress.getText());
                     else if(addressArray.length > 2) {
                         for(int i = 2; i <= addressArray.length; i++) {
                             if(addressArray[i].substring(addressArray[i].length()).equals("동")) {
@@ -320,20 +397,24 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         Thread th3 = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
 
                     String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionAreaDetail.jsp?";
                     urlString += "QUESTION_AREA=" + resultText.getText().toString();
 
                     jsonString = TomcatConnector(urlString);
-                    JSONArray arr = new JSONArray(jsonString);
+                    JSONArray jarr = new JSONArray(jsonString);
 
-                    for (int i = 0; i < arr.length(); i++)
+                    recommendArrayJson.clear();
+                    for (int i = 0; i < jarr.length(); i++)
                     {
-                        JSONObject obj = arr.getJSONObject(i);
+                        JSONObject obj = jarr.getJSONObject(i);
                         Log.d("QUESTION_AREA_DETAIL", obj.get("QUESTION_AREA_DETAIL").toString());
+                        recommendArrayJson.add(obj.get("QUESTION_AREA_DETAIL").toString());
                     }
+
+                    Message msg = handler2.obtainMessage();
+                    handler2.sendMessage(msg);
                 }catch (Exception e) {
                     successFlag = "Fail";
                 }
@@ -589,13 +670,18 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                                 urlString += "QUESTION_AREA=" + resultAddress.getText().toString();
 
                                 jsonString = TomcatConnector(urlString);
-                                JSONArray arr = new JSONArray(jsonString);
+                                JSONArray jarr = new JSONArray(jsonString);
 
-                                for (int i = 0; i < arr.length(); i++)
+                                recommendArrayJson.clear();
+                                for (int i = 0; i < jarr.length(); i++)
                                 {
-                                    JSONObject obj = arr.getJSONObject(i);
+                                    JSONObject obj = jarr.getJSONObject(i);
                                     Log.d("QUESTION_AREA_DETAIL", obj.get("QUESTION_AREA_DETAIL").toString());
+                                    recommendArrayJson.add(obj.get("QUESTION_AREA_DETAIL").toString());
                                 }
+
+                                Message msg = handler2.obtainMessage();
+                                handler2.sendMessage(msg);
                             }catch (Exception e) {
                                 successFlag = "Fail";
                             }
