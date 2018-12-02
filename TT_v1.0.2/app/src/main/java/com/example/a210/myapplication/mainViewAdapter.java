@@ -181,7 +181,7 @@ public class mainViewAdapter extends BaseAdapter{
             if (item.getString("img1").equals("none_image")) {
                 mainImage.setImageResource(R.drawable.default_back);
             } else {
-                String imageurl = context.getString(R.string.url_Server)+"TripTalkWebServer" + item.getString("img1");
+                String imageurl = context.getString(R.string.url_Server) + item.getString("img1");
                 Log.e("쀍123", "***" + item.getString("img1") + "***" + position);
                 Glide.with(context)
                         .load(imageurl)

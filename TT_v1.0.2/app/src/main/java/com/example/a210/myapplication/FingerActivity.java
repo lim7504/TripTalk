@@ -53,10 +53,10 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
     private EditText editText;
 
     ListView selectList;
-    TextView resultText,resultAddress,recommendAddress;
+    TextView resultText,resultAddress;
     Button selectButton,btnSearch,btnFinger;
     Intent it,itGet;
-    EditText etcEditText;
+    EditText etcEditText,recommendAddress;
     Spinner subjectSpinner,recommendSpinner;
     ArrayAdapter subjectAdapter,recommendAdapter;
     RelativeLayout searchAddress;
@@ -121,11 +121,11 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         selectList = (ListView)findViewById(R.id.selectList);
         resultText = (TextView)findViewById(R.id.resultText);
         resultAddress = (TextView)findViewById(R.id.resultAddress);
-        recommendAddress = (TextView)findViewById(R.id.recommendAddress);
         selectButton = (Button)findViewById(R.id.selectButton);
         subjectSpinner = (Spinner)findViewById(R.id.subjectSpinner);
         recommendSpinner = (Spinner)findViewById(R.id.recommendSpinner);
         etcEditText = (EditText)findViewById(R.id.etcEditText);
+        recommendAddress = (EditText) findViewById(R.id.recommendAddress);
         itGetTextView = (TextView)findViewById(R.id.itGetTextView);
         btnSearch = (Button)findViewById(R.id.btnSearch);
         btnFinger = (Button)findViewById(R.id.btnFinger);
@@ -262,6 +262,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 searchAddress.setVisibility(View.VISIBLE);
                 recommendAdapter.clear();
                 recommendAdapter.add("주소를 검색하세요.");
+                recommendLayout.setVisibility(View.GONE);
             }
         });
 
@@ -273,6 +274,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 editText.setText("");
                 resultText.setText("");
                 searchAddress.setVisibility(View.GONE);
+                recommendLayout.setVisibility(View.VISIBLE);
                 recommendAdapter.clear();
                 recommendAdapter.add("주소를 검색하세요.");
             }
@@ -306,11 +308,11 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                             String urlString = "http://lim7504.iptime.org:8080/TripTalkWebServer/QuestionRegist.jsp?";
                             urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
                             urlString += "&QUESTION_CONTENS=" + etcEditText.getText().toString();
-                            if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
-                                urlString += "&QUESTION_AREA=" + resultText.getText().toString();
+                            urlString += "&QUESTION_AREA=" + resultText.getText().toString();
+                            if(editText.getText().toString().equals(""))
+                                urlString += "&QUESTION_AREA_DETAIL=" + recommendAddress.getText().toString();
                             else
-                                urlString += "&QUESTION_AREA=" + recommendAddress.getText().toString();
-                            urlString += "&QUESTION_AREA_DETAIL=" + "TEST".toString();
+                                urlString += "&QUESTION_AREA_DETAIL=" + editText.getText().toString();
                             urlString += "&QUESTION_SUBJECT=" + subjectSpinner.getSelectedItem().toString();
                             urlString += "&ISQUESTION=Y";
 
@@ -331,26 +333,16 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 }
 
                 UserInfomation.SearchSubJect =  subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
-
-                if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
-                    UserInfomation.SearchArea = resultText.getText().toString();
-                else
-                    UserInfomation.SearchArea = recommendAddress.getText().toString();
+                UserInfomation.SearchArea = resultText.getText().toString();
 
                 it = new Intent(getApplicationContext(),ChatActivity.class);
                 if(resultAddress.getText().equals("")) {
-                    if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
-                        it.putExtra("Location",resultText.getText());
-                    else
-                        it.putExtra("Location",recommendAddress.getText());
+                    it.putExtra("Location",resultText.getText());
                 } else if(resultText.getText().equals("")) {
                     addressSplit = resultAddress.getText().toString().substring(5,resultAddress.getText().toString().length());
                     addressArray = addressSplit.split(" ");
                     if(addressArray.length <= 2)
-                        if(recommendAddress.equals("주소를 검색하세요.") || recommendAddress.equals("추천 지역 선택"))
-                            it.putExtra("Location",resultAddress.getText());
-                        else
-                            it.putExtra("Location",recommendAddress.getText());
+                        it.putExtra("Location",resultAddress.getText());
                     else if(addressArray.length > 2) {
                         for(int i = 2; i <= addressArray.length; i++) {
                             if(addressArray[i].substring(addressArray[i].length()).equals("동")) {
