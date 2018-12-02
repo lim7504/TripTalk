@@ -37,7 +37,7 @@
 		
 		//simpleapikey 반드시 본인의 firebase key를 입력해야함.
 		//String simpleApiKey = "AAAAX4kf_bU:APA91bHgjt4oHe643xsm-45lACsuYR9N7LAs-FfN9CYKqEUU8JwsLVX7cr-lvWfCrY8E9HV4JTHcKIljcBymSAhV4ygbPurLsn-K4k_JJKRMtu9hEH-nQmZy3FLQCaqu-2KXPGz6USCn";
-		String simpleApiKey = "AIzaSyD_iEohE8kjPsPZ_NO-L-czARVuEiT3dFw";
+		String simpleApiKey = "AAAA9WMsLEs:APA91bGapDLssT7V6rE6wik1ZtPO8uUk9zv-IdJt7mGxFf99zWoCfkI7gW2F9DRIWmkfVLMDWTBXNfVvB1p7MpqGNkX5yfpgCBmndlmFLmihcDkzl4KYqCMDBM-koQWSMLi58f0YRVp3";
 		String gcmURL = "https://android.googleapis.com/fcm/send";  
 		
 		String MESSAGE_ID = null;

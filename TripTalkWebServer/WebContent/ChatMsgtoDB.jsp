@@ -109,7 +109,7 @@
 
 					///if(rs.next())
 					//{
-					if (!MESSAGE_TYPE.contains("3")) {
+					if (!MESSAGE_TYPE.contains("3") && !MESSAGE_TYPE.contains("9")) {
 						MESSAGE_TYPE = "1";
 					}
 					TARGET_USER = RECEIVE_USER_ID;//rs.getString("USER_TOKEN");
@@ -126,7 +126,7 @@
 
 					//if(rs.next())
 					//{
-					if (!MESSAGE_TYPE.contains("3")) {
+					if (!MESSAGE_TYPE.contains("3") && !MESSAGE_TYPE.contains("9")) {
 						MESSAGE_TYPE = "2";
 					}
 					TARGET_USER = REQUEST_USER_ID;//rs.getString("USER_TOKEN");
