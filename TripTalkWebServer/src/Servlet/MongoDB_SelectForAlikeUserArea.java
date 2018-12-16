@@ -300,21 +300,20 @@ public class MongoDB_SelectForAlikeUserArea
 		public String GetList()
 		{
 		
-			String str = "최근 질문한 \"" + this.lastQuestionArea + " " + this.lastQuestionAreaDetail + "\" 지역와";
-				   str += "\n같은 지역을 질문했던 유저들의 선호 지역은"; 
-				   str += "\n\n\"" + this.resultArea +  " " + this.resultAreaDetail + "\" 입니다.";
+			String str = "     최근 질문한 \"" + this.lastQuestionArea + " " + this.lastQuestionAreaDetail + "\" 지역와";
+				   str += "\n   같은 지역을 질문했던 유저들의 선호 지역은"; 
+				   str += "\n\n     \"" + this.resultArea +  " " + this.resultAreaDetail + "\" 입니다.";
 				   
-				   str += "\n\n\n\"" + this.resultArea + " " + this.resultAreaDetail + "\" 주위 관광지로";
+				   str += "\n\n\n     \"" + this.resultArea + " " + this.resultAreaDetail + "\" 주위 관광지";
 				   str += "\n";
 				   
 				   for (Model model : listModel) {
 			        	
 					   int index = listModel.indexOf(model) + 1;
 //					   str += "\n    " +  index  + ". " + model.GetQuestionAreaDetail();
-					   str += "\n  [" + model.GetQuestionAreaDetail() + "]";
+					   str += "\n                                          [" + model.GetQuestionAreaDetail() + "]";
 			        }
 				   
-				   str += "\n\n가 있습니다.";
 			
 	        return str;	
 		}
