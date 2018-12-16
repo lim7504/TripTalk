@@ -71,7 +71,6 @@ public class LonginActivity extends AppCompatActivity implements View.OnClickLis
     };
 
     Button login,signUp;
-    Button btnTest;
     Button testLocation;
     Intent it;
     @Override
@@ -85,11 +84,11 @@ public class LonginActivity extends AppCompatActivity implements View.OnClickLis
 
         login = (Button)findViewById(R.id.login);
         signUp = (Button)findViewById(R.id.signUp);
-        btnTest = (Button)findViewById(R.id.button4);
+
 
         login.setOnClickListener(this);
         signUp.setOnClickListener(this);
-        btnTest.setOnClickListener(this);
+
 
         prefs = getSharedPreferences("USER", MODE_PRIVATE);
         edit = prefs.edit();
@@ -212,41 +211,6 @@ public class LonginActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.signUp :
                 it = new Intent(getApplicationContext(),SignupActivity.class);
                 startActivity(it);
-                break;
-            case R.id.button4:
-                Thread th2 = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        try {
-                            String jsonString;
-                            String urlString = getString(R.string.url_Server)+"/Login.jsp?";
-                            //String urlString = "http://10.0.2.2:8080/TripTalkWebServer/PrivateRoomList.jsp?";
-                            urlString += "USER_ID=" + editTextLogin_ID.getText().toString();
-
-                            jsonString = TomcatConnector(urlString);
-                            JSONArray arr = new JSONArray(jsonString);
-
-                            for (int i = 0; i < arr.length(); i++) {
-                                JSONObject obj = arr.getJSONObject(i);
-
-                                String QUESTION_CONTENS = obj.getString("QUESTION_CONTENS");
-                                String QUESTION_SUBJECT = obj.getString("QUESTION_SUBJECT");
-                                String QUESTION_AREA = obj.getString("QUESTION_AREA");
-
-                                QUESTION_CONTENS = QUESTION_CONTENS + "," + QUESTION_SUBJECT + "," + QUESTION_AREA;
-
-                                Log.d("List :" ,QUESTION_CONTENS );
-                                successFlag = "Success";
-                            }
-
-
-                        }catch (Exception e) {
-                            successFlag = "Fail";
-                        }
-                    }
-                });
-                th2.start();
                 break;
         }
     }

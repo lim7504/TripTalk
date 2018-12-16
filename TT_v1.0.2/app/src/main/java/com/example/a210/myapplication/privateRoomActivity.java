@@ -85,6 +85,7 @@ public class privateRoomActivity extends AppCompatActivity{
                 it.putExtra("subTitle", adapter.getChatViewItem(i).getSubTitle() .toString()); //subtitle 대신 title로 사용 중
                 it.putExtra("create","false");
                 startActivity(it);
+                finish();
             }
         });
 

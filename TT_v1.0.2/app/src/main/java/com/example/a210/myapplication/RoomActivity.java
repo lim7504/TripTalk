@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -77,7 +79,41 @@ public class RoomActivity extends AppCompatActivity {
     ImageButton btnFinalSelect = null;
     String sCreate = "False";
     String sRequestUser = "";
+    JSONArray arr;
+    Boolean bAlreadSelect = false;
 
+    Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            try {
+
+
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject obj = arr.getJSONObject(i);
+
+                    String ROOM_ID = obj.getString("ROOM_ID");
+                    String MESSEGE_ID = obj.getString("MESSEGE_ID");
+                    String CHAT_SENDER_ID = obj.getString("CHAT_SENDER_ID");
+                    String CHAT_MESSAGE = obj.getString("CHAT_MESSAGE");
+                    String IS_CHOOSE = obj.getString("IS_CHOOSE");
+
+                    Log.e("jinsu111", obj.toString());
+
+                    if (bAlreadSelect) {
+                        if (IS_CHOOSE.compareTo("3") == 0) {
+                            IS_CHOOSE = "4";
+                        }
+                    }
+
+                    InsertChatMessage(CHAT_SENDER_ID, CHAT_MESSAGE, IS_CHOOSE);
+                }
+            }catch( Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    };
     @Override
     protected void onStop() {
         bStopThread = true;
@@ -262,8 +298,8 @@ public class RoomActivity extends AppCompatActivity {
                     //     urlString += "&QUOSTION_TYPE=" + setGrade.getText();
 
                     jsonString = TomcatConnector(urlString);
-                    JSONArray arr = new JSONArray(jsonString);
-                    Boolean bAlreadSelect = false;
+                    arr = new JSONArray(jsonString);
+
 
                     for (int i = 0; i < arr.length(); i++) {
                         JSONObject obj = arr.getJSONObject(i);
@@ -274,26 +310,7 @@ public class RoomActivity extends AppCompatActivity {
                             bAlreadSelect = true;
                         }
                     }
-                    for (int i = 0; i < arr.length(); i++) {
-                        JSONObject obj = arr.getJSONObject(i);
-
-                        String ROOM_ID = obj.getString("ROOM_ID");
-                        String MESSEGE_ID = obj.getString("MESSEGE_ID");
-                        String CHAT_SENDER_ID = obj.getString("CHAT_SENDER_ID");
-                        String CHAT_MESSAGE = obj.getString("CHAT_MESSAGE");
-                        String IS_CHOOSE = obj.getString("IS_CHOOSE");
-
-                        Log.e("jinsu111",obj.toString());
-
-                        if(bAlreadSelect)
-                        {
-                            if(IS_CHOOSE.compareTo("3") == 0) {
-                                IS_CHOOSE = "4";
-                            }
-                        }
-
-                        InsertChatMessage(CHAT_SENDER_ID,CHAT_MESSAGE,IS_CHOOSE);
-                    }
+                    handler.sendEmptyMessage(0);
                 }
                 catch (Exception e)
                 {
@@ -351,8 +368,7 @@ public class RoomActivity extends AppCompatActivity {
         params.setMargins(200, 10, 20, 10);
         params.gravity = Gravity.RIGHT;
         topTV1.setLayoutParams(params);
-        //topTV1.setBackgroundColor(Color.parseColor("#F8EB04"));
-        topTV1.setBackgroundColor(Color.YELLOW);
+        topTV1.setBackgroundColor(Color.parseColor("#F8EB04"));
         topTV1.setPadding(12, 12, 12, 12);
         topTV1.setTextColor(Color.parseColor("#000000"));
         topTV1.setTextSize(20);
@@ -505,8 +521,7 @@ public class RoomActivity extends AppCompatActivity {
             try {
                 String str;
                 URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ChatMsgtoDB.jsp");
-
-               // URL url = new URL("http://10.0.2.2:8080/TripTalkWebServer/ChatMsgtoDB.jsp");
+               // URL url = new URL("http://192.168.0.5:8080/TripTalkWebServer/ChatMsgtoDB.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -547,7 +562,8 @@ public class RoomActivity extends AppCompatActivity {
             try {
                 String str;
                 URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ChoosetoDB.jsp");
-               // URL url = new URL("http://10.0.2.2:8080/TripTalkWebServer/ChoosetoDB.jsp");
+                //URL url = new URL("http://192.168.0.5:8080/TripTalkWebServer/ChoosetoDB.jsp");
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -643,7 +659,8 @@ public class RoomActivity extends AppCompatActivity {
             try {
                 String str;
                 URL url = new URL("http://lim7504.iptime.org:8080/TripTalkWebServer/ChatRoomManagerforRemove.jsp");
-                //URL url = new URL("http://10.0.2.2:8080/TripTalkWebServer/ChatRoomManagerforRemove.jsp");
+                //URL url = new URL("http://192.168.0.5:8080/TripTalkWebServer/ChatRoomManagerforRemove.jsp");
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -695,16 +712,14 @@ public class RoomActivity extends AppCompatActivity {
             {
                 topTV1.setBackgroundColor(Color.RED);
                 topTV1.setTag(9);
-                topTV1.setText(CHAT_MESSAGE);
-                chattingView.addView(topTV1);
             }else
             {
-
-                topTV1.setBackgroundColor(Color.YELLOW);
+                topTV1.setBackgroundColor(Color.parseColor("#F8EB04"));
                 topTV1.setTag(1);
-                topTV1.setText(CHAT_MESSAGE);
-                chattingView.addView(topTV1);
             }
+
+            topTV1.setText(CHAT_MESSAGE);
+            chattingView.addView(topTV1);
         }else
         {
 
@@ -715,17 +730,16 @@ public class RoomActivity extends AppCompatActivity {
             params2.gravity = Gravity.LEFT;
             topV2.setLayoutParams(params2);
             topV2.setPadding(12, 12, 12, 12);
+            topV2.setTextColor(Color.parseColor("#000000"));
             topV2.setTextSize(20);
 
             if(IS_CHOOSE.equals("9"))
             {
                 topV2.setBackgroundColor(Color.RED);
                 topV2.setTag(9);
-                topV2.setText(CHAT_MESSAGE);
+
             }else
             {
-
-
                 if(IS_CHOOSE.compareTo("3") == 0 || IS_CHOOSE.compareTo("4") == 0) {
                     topV2.setTag(Integer.parseInt(IS_CHOOSE));
                     topV2.setBackgroundColor(Color.GREEN);
@@ -735,9 +749,9 @@ public class RoomActivity extends AppCompatActivity {
                     topV2.setBackgroundColor(Color.WHITE);
                 }
                 appendEvent(topV2);
-                topV2.setText(CHAT_MESSAGE);
             }
 
+            topV2.setText(CHAT_MESSAGE);
             chattingView.addView(topV2);
         }
     }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,60 @@ public class ChatActivity extends AppCompatActivity{
     ListView chatList;
     Intent it,itGet;
     ChatView adapterItem = new ChatView();
+    String successFlag;
+    String Content;
+    Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if(successFlag.contains("ACK") == true) {
+                Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
+
+                Thread th = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try
+                        {
+                            String jsonString;
+                            String urlString = getResources().getString(R.string.url_Server)+"/QuestionSelectForMy.jsp?";
+                            urlString += "USER_ID=" + UserInfomation.User_ID;
+                            urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
+                            urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
+                            jsonString = TomcatConnector(urlString);
+
+                            JSONArray arr = new JSONArray(jsonString);
+
+                            for (int i = 0; i < arr.length(); i++) {
+                                JSONObject obj = arr.getJSONObject(i);
+
+                                UserInfomation.Wait_ID = obj.get("WAIT_ID").toString();
+                            }
+
+                            Intent it = new Intent(getApplicationContext(), RoomActivity.class);
+
+                            it.putExtra("nick", UserInfomation.User_ID);
+                            //it.putExtra("grade", UserInfomation.User_ID);
+                            it.putExtra("subTitle", Content);
+                            it.putExtra("create", "True");
+                            startActivity(it);
+                            finish();
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                    }
+                });
+                th.start();
+
+                //if(bResult) {
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,38 +97,35 @@ public class ChatActivity extends AppCompatActivity{
         final ChatViewAdapter adapter = new ChatViewAdapter();
 
         chatList.setAdapter(adapter);
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try
-                {
-                    String jsonString;
-                    String urlString = getString(R.string.url_Server)+"/QuestionSelect.jsp?";
-                    urlString += "USER_ID=" + UserInfomation.User_ID;
-                    urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
-                    urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
-                    jsonString = TomcatConnector(urlString);
 
-                    JSONArray arr = new JSONArray(jsonString);
+        Content = itGet.getStringExtra("Content");
 
-                    for (int i = 0; i < arr.length(); i++) {
-                        JSONObject obj = arr.getJSONObject(i);
-
-                        adapter.addItem(getResources().getDrawable(R.drawable.default_face), getResources().getDrawable(R.drawable.newicon), obj.get("NICK").toString(),
-                                obj.get("GRADE").toString(), obj.get("SUBTITLE").toString(),obj.get("WAIT_ID").toString());
-                    }
-                }
-                catch (Exception e)
-                {
-                }
-            }
-        });
-        th.start();
-        /*
         if(itGet.getStringExtra("sep").toString().equals("quest")) {
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-            //질문자가 채팅 방 목록에 들어 왔을 경우 처리
-            //질문자가 들어면 어떤 방을 보여줘야 하는건지???
+                    try {
+
+                        String urlString = getString(R.string.url_Server)+"/QuestionRegist.jsp?";
+                        urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
+                        urlString += "&QUESTION_CONTENS=" + Content;
+                        urlString += "&QUESTION_AREA=" + UserInfomation.SearchArea;
+                        urlString += "&QUESTION_SUBJECT=" + UserInfomation.SearchSubJect;
+                        urlString += "&ISQUESTION=Y";
+
+                        successFlag = TomcatConnector(urlString);
+
+                    }catch (Exception e) {
+                        successFlag = "Fail";
+                    }
+                    handler.sendEmptyMessage(0);
+                }
+            });
+            th.start();
+
+            } else if(itGet.getStringExtra("sep").toString().equals("dap")) {
+
 
             Thread th = new Thread(new Runnable() {
                 @Override
@@ -80,11 +133,10 @@ public class ChatActivity extends AppCompatActivity{
                     try
                     {
                         String jsonString;
-                        String urlString = "http://192.168.0.5:8080/TripTalkWebServer/QuestionSelect.jsp?";
+                        String urlString = getString(R.string.url_Server)+"/QuestionSelect.jsp?";
                         urlString += "USER_ID=" + UserInfomation.User_ID;
                         urlString += "&SERACH_AREA=" + UserInfomation.SearchArea;
                         urlString += "&SEARCH_SUBJECT=" + UserInfomation.SearchSubJect;
-                        //urlString += "&IS_QUESTION=N";
                         jsonString = TomcatConnector(urlString);
 
                         JSONArray arr = new JSONArray(jsonString);
@@ -102,10 +154,8 @@ public class ChatActivity extends AppCompatActivity{
                 }
             });
             th.start();
-
-                   } else if(itGet.getStringExtra("sep").toString().equals("dap")) {
         }
-*/
+
         chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Boolean bResult = false;
             @Override

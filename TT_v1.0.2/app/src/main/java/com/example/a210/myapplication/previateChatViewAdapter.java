@@ -32,17 +32,10 @@ public class previateChatViewAdapter extends BaseAdapter {
 
         try {
             this.context = context;
-            String result = new previateChatViewAdapter.BlogAllSearch().execute().get();
+            String result = new previateChatViewAdapter.PreivateChatRoomSearch().execute().get();
 
             //jObject = new JSONObject(result);  // JSONObject 추출
-            jArray = new JSONArray(result);
 
-
-            for(int i=0; i<jArray.length(); i++) {
-
-                ChatView chatView = new ChatView();
-                chatViewItem.add(chatView);
-            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -53,7 +46,7 @@ public class previateChatViewAdapter extends BaseAdapter {
         if(jArray.length() != 0){
             return jArray.length();
         }
-        return chatViewItem.size();
+        return 0;
     }
 
     @Override
@@ -88,6 +81,8 @@ public class previateChatViewAdapter extends BaseAdapter {
         TextView nick = (TextView) v.findViewById(R.id.chatNick);
         TextView grade = (TextView) v.findViewById(R.id.chatGrade);
         TextView subTitle = (TextView) v.findViewById(R.id.chatSubTitle);
+
+        chatIcon.setVisibility(View.INVISIBLE);
 
         ChatView chatItem = chatViewItem.get(position);
 
@@ -156,7 +151,7 @@ public class previateChatViewAdapter extends BaseAdapter {
         chatViewItem.add(item);
     }
 
-    class BlogAllSearch extends AsyncTask<String, Void, String> {
+    class PreivateChatRoomSearch extends AsyncTask<String, Void, String> {
         String sendMsg, receiveMsg;
 
         @Override
@@ -183,6 +178,19 @@ public class previateChatViewAdapter extends BaseAdapter {
                     }
                     receiveMsg = buffer.toString();
 
+                    try
+                    {
+                        jArray = new JSONArray(receiveMsg);
+
+                        for (int i = 0; i < jArray.length(); i++) {
+
+                            ChatView chatView = new ChatView();
+                            chatViewItem.add(chatView);
+                        }
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 } else {
                     Log.i("통신 결과", conn.getResponseCode() + "에러");
                 }

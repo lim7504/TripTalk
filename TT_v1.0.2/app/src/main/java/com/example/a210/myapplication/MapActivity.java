@@ -170,7 +170,7 @@ public class MapActivity extends FragmentActivity {
             }
         });
 
-        myLocation.setText("인천광역시 부평구 산곡동");
+     //   myLocation.setText("인천광역시 부평구 산곡동");
 
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
