@@ -180,7 +180,9 @@ public class Footer extends Fragment implements  View.OnClickListener{
                 break;
             case R.id.chatRoom:
                 Intent it2 = new Intent(getContext(), privateRoomActivity.class);
+                it2.putExtra("sep","quest");
                 startActivity(it2);
+                getActivity().finish();
                 break;
         }
     }

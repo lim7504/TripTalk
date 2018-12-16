@@ -85,10 +85,12 @@ public class privateRoomActivity extends AppCompatActivity{
                 it.putExtra("subTitle", adapter.getChatViewItem(i).getSubTitle() .toString()); //subtitle 대신 title로 사용 중
                 it.putExtra("create","false");
                 startActivity(it);
-                finish();
+             //   finish();
             }
         });
 
+        callFragment(1);
+        callFragment(2);
     }
     public String TomcatConnector(String urlString) {
 
@@ -128,17 +130,29 @@ public class privateRoomActivity extends AppCompatActivity{
         return html.toString();
 
     }
+
     private void callFragment(int frament_no) {
 
         // 프래그먼트 사용을 위해
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        itGet = getIntent();
-
 
         switch (frament_no) {
-            case 1:transaction.commit();
+            case 1:
+                // '프래그먼트1' 호출
+                Footer fragment1 = new Footer();
+                Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
+                bundle.putString("sep", itGet.getStringExtra("sep").toString()); // key , value
+                fragment1.setArguments(bundle);
+                transaction.replace(R.id.footer, fragment1);
+                transaction.commit();
                 break;
 
+            case 2:
+                // '프래그먼트2' 호출
+                Header fragment2 = new Header();
+                transaction.replace(R.id.header, fragment2);
+                transaction.commit();
+                break;
         }
     }
 }

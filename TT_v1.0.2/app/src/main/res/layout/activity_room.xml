@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:text="나가기"
-            android:background="@drawable/custom_btn"
+            android:background="#4267b2"
             android:textColor="#FFFFFF"
             android:id="@+id/exit"
             />
