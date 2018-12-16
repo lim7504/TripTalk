@@ -347,6 +347,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
 
                     String sTempAddress =  resultText.getText().toString();
                     String sAddress = resultText.getText().toString();
+                    /*
                     int iIndex = sTempAddress.indexOf(" ");
                     int iRealIndex= 0;
 
@@ -372,6 +373,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
 
                     sAddress = sAddress + " " + sTempAddress;
                     Log.e("address test",sAddress);
+                    */
                     it.putExtra("Location",sAddress);
                     UserInfomation.SearchArea =sAddress;
                 } else if(resultText.getText().equals("")) {
