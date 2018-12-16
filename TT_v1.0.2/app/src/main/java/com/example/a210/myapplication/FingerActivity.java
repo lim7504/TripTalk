@@ -112,6 +112,25 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     };
 
+    Handler handler3 = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if(successFlag.contains("ACK") == true ) {
+                Toast.makeText(getApplicationContext(), "매칭을 시작했습니다. 대기해주세요.", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                it.putExtra("sep","quest");
+                startActivity(it);
+                finish();
+
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Fail..!!", Toast.LENGTH_LONG).show();
+
+        }
+    };
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finger);
@@ -296,19 +315,19 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 String addressArray[] = {};
                 String dong = "";
 
-                if(subjectSpinner.getVisibility() == View.VISIBLE && subjectSpinner.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getApplicationContext(),"항목 구분을 선택해주세요",Toast.LENGTH_LONG).show();
+                if (subjectSpinner.getVisibility() == View.VISIBLE && subjectSpinner.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getApplicationContext(), "항목 구분을 선택해주세요", Toast.LENGTH_LONG).show();
                     return;
-                } else if(etcEditText.getText().toString().equals("") || etcEditText.getText() == null) {
-                    Toast.makeText(getApplicationContext(),"기타 사항을 입력해주세요",Toast.LENGTH_LONG).show();
+                } else if (etcEditText.getText().toString().equals("") || etcEditText.getText() == null) {
+                    Toast.makeText(getApplicationContext(), "기타 사항을 입력해주세요", Toast.LENGTH_LONG).show();
                     return;
-                } else if(resultText.getText().equals("") && resultAddress.getText().equals("")) {
-                    Toast.makeText(getApplicationContext(),"지역을 선택해주세요.",Toast.LENGTH_LONG).show();
+                } else if (resultText.getText().equals("") && resultAddress.getText().equals("")) {
+                    Toast.makeText(getApplicationContext(), "지역을 선택해주세요.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
 
-                if(itGet.getStringExtra("sep").equals("quest")) {
+                if (itGet.getStringExtra("sep").equals("quest")) {
                     Thread th = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -332,7 +351,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                             } catch (Exception e) {
                                 successFlag = "Fail";
                             }
-
+                            handler3.sendEmptyMessage(0);
                         }
                     });
                     th.start();
@@ -342,17 +361,16 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
+                }else {
 
+                    UserInfomation.SearchSubJect = subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
+                    UserInfomation.SearchArea = resultAddress.getText().toString();
 
-                UserInfomation.SearchSubJect = subjectAdapter.getItem(subjectSpinner.getSelectedItemPosition()).toString();
-                UserInfomation.SearchArea =resultAddress.getText().toString();
+                    it = new Intent(getApplicationContext(), ChatActivity.class);
+                    if (resultAddress.getText().equals("")) {
 
-                it = new Intent(getApplicationContext(),ChatActivity.class);
-                if(resultAddress.getText().equals("")) {
-
-                    String sTempAddress =  resultText.getText().toString();
-                    String sAddress = resultText.getText().toString();
+                        String sTempAddress = resultText.getText().toString();
+                        String sAddress = resultText.getText().toString();
                     /*
                     int iIndex = sTempAddress.indexOf(" ");
                     int iRealIndex= 0;
@@ -380,39 +398,38 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                     sAddress = sAddress + " " + sTempAddress;
                     Log.e("address test",sAddress);
                     */
-                    it.putExtra("Location",sAddress);
-                    UserInfomation.SearchArea =sAddress;
-                } else if(resultText.getText().equals("")) {
-                    addressSplit = resultAddress.getText().toString().substring(5,resultAddress.getText().toString().length());
-                    addressArray = addressSplit.split(" ");
-                    if(addressArray.length <= 2)
-                        it.putExtra("Location",resultAddress.getText());
-                    else if(addressArray.length > 2) {
-                        for(int i = 2; i <= addressArray.length; i++) {
-                            if(addressArray[i].substring(addressArray[i].length()).equals("동")) {
-                                for(int j = 0; j <= i; j++) {
-                                    dong = dong + addressArray[j] + " ";
+                        it.putExtra("Location", sAddress);
+                        UserInfomation.SearchArea = sAddress;
+                    } else if (resultText.getText().equals("")) {
+                        addressSplit = resultAddress.getText().toString().substring(5, resultAddress.getText().toString().length());
+                        addressArray = addressSplit.split(" ");
+                        if (addressArray.length <= 2)
+                            it.putExtra("Location", resultAddress.getText());
+                        else if (addressArray.length > 2) {
+                            for (int i = 2; i <= addressArray.length; i++) {
+                                if (addressArray[i].substring(addressArray[i].length()).equals("동")) {
+                                    for (int j = 0; j <= i; j++) {
+                                        dong = dong + addressArray[j] + " ";
+                                    }
+                                    dong = dong.substring(0, dong.length());
                                 }
-                                dong = dong.substring(0,dong.length());
                             }
                         }
                     }
-                }
 
-                if(itGetTextView.getText().toString().equals("dap"))
-                    it.putExtra("sep","dap");
-                else if(itGetTextView.getText().toString().equals("quest"))
-                    it.putExtra("sep","quest");
-                else if(itGetTextView.getText().toString().equals("none"))
-                    it.putExtra("sep",itGet.getStringExtra("sep"));
-                it.putExtra("Subject","asg");
-                it.putExtra("Subtitle","알라아랄");
-                it.putExtra("Content",etcEditText.getText().toString());
+                    if (itGetTextView.getText().toString().equals("dap"))
+                        it.putExtra("sep", "dap");
+                    else if (itGetTextView.getText().toString().equals("quest"))
+                        it.putExtra("sep", "quest");
+                    else if (itGetTextView.getText().toString().equals("none"))
+                        it.putExtra("sep", itGet.getStringExtra("sep"));
+                    it.putExtra("Subject", "asg");
+                    it.putExtra("Subtitle", "알라아랄");
+                    it.putExtra("Content", etcEditText.getText().toString());
 
 
-                startActivity(it);
-                finish();
-
+                    startActivity(it);
+                    finish();
 
 
 //                it = new Intent(getApplicationContext(),ChatActivity.class);
@@ -427,6 +444,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
 //                it.putExtra("Subtitle","알라아랄");
 //                startActivity(it);
 //                finish();
+                }
             }
         });
     }
