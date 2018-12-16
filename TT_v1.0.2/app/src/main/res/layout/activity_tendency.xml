@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:orientation="vertical">
 
             <TextView
@@ -45,7 +45,9 @@
                 android:textAlignment="gravity"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="미술관보다 야시장이 좋다" />
+                android:paddingLeft="20dp"
+                android:text="1. 미술관보다 야시장이 좋다"
+                />
 
             <RadioGroup
                 android:layout_width="280dp"
@@ -100,7 +102,8 @@
                 android:textAlignment="gravity"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="낯선 곳보다 익숙한 곳이 좋다" />
+                android:paddingLeft="20dp"
+                android:text="2. 낯선 곳보다 익숙한 곳이 좋다" />
 
             <RadioGroup
                 android:layout_width="280dp"
@@ -154,7 +157,8 @@
                 android:textAlignment="gravity"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="인터넷이 없으면 3시간도 버티기 힘들다" />
+                android:paddingLeft="20dp"
+                android:text="3. 인터넷이 없이 3시간도 버티기 힘들다" />
 
             <RadioGroup
                 android:layout_width="280dp"

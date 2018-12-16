@@ -14,7 +14,7 @@
 
         android:id="@+id/lin1"
         android:orientation="horizontal"
-        android:background="#8B4513"
+        android:background="#4267b2"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         >
@@ -24,7 +24,7 @@
 
             android:src="@drawable/home"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
             android:id="@+id/home"
             android:layout_marginLeft="4dp"
@@ -36,7 +36,7 @@
 
             android:src="@drawable/giopen"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
             android:id="@+id/giopence"
             />
@@ -46,7 +46,7 @@
 
             android:src="@drawable/click"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
             android:id="@+id/finger"
             android:layout_marginLeft="4dp"
@@ -57,7 +57,7 @@
             android:id="@+id/chatRoom"
             android:src="@drawable/chat_icon"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
 
             android:layout_marginLeft="4dp"
@@ -69,7 +69,7 @@
             android:id="@+id/search"
             android:src="@drawable/q"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
 
             android:layout_marginLeft="4dp"
@@ -84,7 +84,7 @@
 
         android:id="@+id/lin2"
         android:orientation="horizontal"
-        android:background="#8B4513"
+        android:background="#4267b2"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:visibility="gone"
@@ -95,7 +95,7 @@
 
             android:src="@drawable/home"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
             android:id="@+id/home_dap"
             android:layout_marginLeft="4dp"
@@ -107,7 +107,7 @@
 
             android:src="@drawable/giopen"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
             android:id="@+id/map_dap"
             />
@@ -117,7 +117,7 @@
 
             android:src="@drawable/click"
             android:scaleType="centerInside"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:layout_weight="1"
             android:id="@+id/finger_dap"
             android:layout_marginLeft="4dp"
@@ -128,7 +128,7 @@
         android:src="@drawable/blog"
         android:id="@+id/blog"
         android:scaleType="centerInside"
-        android:background="#8B4513"
+        android:background="#4267b2"
         android:layout_weight="1"
 
         android:layout_marginLeft="4dp"
@@ -139,7 +139,7 @@
         android:id="@+id/answer"
         android:src="@drawable/a"
         android:scaleType="centerInside"
-        android:background="#8B4513"
+        android:background="#4267b2"
         android:layout_weight="1"
 
         android:layout_marginLeft="4dp"

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:background="#8B4513"
+        android:background="#4267b2"
         android:id="@+id/re1"
         >
         <ImageView
@@ -28,14 +28,14 @@
             android:gravity="center"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="#E6A55A"
+            android:textColor="#beeded"
             />
 
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="#8B4513"
+            android:background="#4267b2"
             android:src="@drawable/settings"
             android:scaleType="centerInside"
             android:layout_margin="10dp"

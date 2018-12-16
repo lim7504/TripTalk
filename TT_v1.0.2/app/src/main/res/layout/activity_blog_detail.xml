@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:background="#8B4513"
+        android:background="#4267b2"
         android:id="@+id/re1"
         >
         <!--<ImageView
@@ -92,7 +92,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/underline"
                     android:orientation="vertical"
                     android:padding="10dp"
                     >
