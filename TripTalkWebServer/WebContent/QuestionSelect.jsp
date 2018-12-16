@@ -63,7 +63,9 @@ sql +="		,WATING.WATING_ID AS WAIT_ID			";
 sql +="     FROM 											";
 sql +="			TRIPTALK_WATING WATING						";
 sql +="		WHERE											";
-sql +="			WATING.[QUESTION_USER_ID] != '{0}' and WATING.[QUESTION_AREA] = '{1}' and WATING.[QUESTION_SUBJECT] = '{2}' and WATING.[IS_MATCHING]=0";
+sql +="			WATING.[QUESTION_USER_ID] != '{0}' and WATING.[QUESTION_AREA] like '{1}' and WATING.[IS_MATCHING]=0";
+//sql +="			WATING.[QUESTION_USER_ID] != '{0}' and WATING.[QUESTION_AREA] = '{1}' and WATING.[QUESTION_SUBJECT] = '{2}' and WATING.[IS_MATCHING]=0";
+
 /*	
 	if(IS_QUESTION.equals("Y"))
 	{
@@ -74,8 +76,10 @@ sql +="			WATING.[QUESTION_USER_ID] != '{0}' and WATING.[QUESTION_AREA] = '{1}' 
 	}
 */    
 		sql = sql.replace("{0}", USER_ID);
+
+		SEARCH_AREA = SEARCH_AREA + "%";
 	    sql = sql.replace("{1}", SEARCH_AREA);
-	    sql = sql.replace("{2}", SEARCH_SUBJECT);
+	 //   sql = sql.replace("{2}", SEARCH_SUBJECT);
 	    System.out.println(sql); 	
 	    stmt = conn.createStatement(); 
 	    	

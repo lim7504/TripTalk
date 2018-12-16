@@ -37,6 +37,7 @@
 	QUOSTION_TYPE = request.getParameter("QUOSTION_TYPE");
 
 	if (REQUEST_USER_ID == null || REQUEST_USER_ID == null || ROOM_NAME == null || WAIT_ID == null) {
+		System.out.println("parameter is null");
 		return;
 	}
 

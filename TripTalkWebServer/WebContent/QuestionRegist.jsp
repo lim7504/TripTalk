@@ -58,6 +58,7 @@
 	
 	if(QUESTION_USER_ID ==null || QUESTION_CONTENS == null || QUESTION_AREA == null || QUESTION_SUBJECT == null)
 	{
+		System.out.println("Regist is null");
 		return ;
 	}
 	//IS_QUESTION = request.getParameter("IS_QUESTION");
