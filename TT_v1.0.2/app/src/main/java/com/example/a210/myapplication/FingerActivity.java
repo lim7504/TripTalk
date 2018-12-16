@@ -155,7 +155,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
             recommendLayout.setVisibility(View.GONE);
             subjectSpinner.setVisibility(View.INVISIBLE);
         } else if(itGet.getStringExtra("sep").equals("quest")){
-            recommendLayout.setVisibility(View.VISIBLE);
+            recommendLayout.setVisibility(View.GONE);
             subjectSpinner.setVisibility(View.VISIBLE);
         }
 
@@ -260,26 +260,30 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectList.setVisibility(View.GONE);
-                resultText.setText("");
-                searchAddress.setVisibility(View.VISIBLE);
-                recommendAdapter.clear();
-                recommendAdapter.add("주소를 검색하세요.");
-                recommendLayout.setVisibility(View.GONE);
+                    selectList.setVisibility(View.GONE);
+                    resultText.setText("");
+                    searchAddress.setVisibility(View.VISIBLE);
+                if(itGet.getStringExtra("sep").equals("quest")) {
+                    recommendAdapter.clear();
+                    recommendAdapter.add("주소를 검색하세요.");
+                    recommendLayout.setVisibility(View.GONE);
+                }
             }
         });
 
         btnFinger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectList.setVisibility(View.VISIBLE);
-                resultAddress.setText("");
-                editText.setText("");
-                resultText.setText("");
-                searchAddress.setVisibility(View.GONE);
-                recommendLayout.setVisibility(View.VISIBLE);
-                recommendAdapter.clear();
-                recommendAdapter.add("주소를 검색하세요.");
+                    selectList.setVisibility(View.VISIBLE);
+                    resultAddress.setText("");
+                    editText.setText("");
+                    resultText.setText("");
+                    searchAddress.setVisibility(View.GONE);
+                if(itGet.getStringExtra("sep").equals("quest")) {
+                    recommendLayout.setVisibility(View.VISIBLE);
+                    recommendAdapter.clear();
+                    recommendAdapter.add("주소를 검색하세요.");
+                }
                 bSelectMode = false;
             }
         });
@@ -304,7 +308,7 @@ public class FingerActivity extends AppCompatActivity implements OnMapReadyCallb
                 }
 
 
-                if(itGetTextView.getText().toString().equals("quest")) {
+                if(itGet.getStringExtra("sep").equals("quest")) {
                     Thread th = new Thread(new Runnable() {
                         @Override
                         public void run() {
