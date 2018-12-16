@@ -24,9 +24,6 @@ import android.widget.Toast;
 
 import com.nhn.android.maps.NMapView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -55,8 +52,12 @@ public class MapActivity extends FragmentActivity {
             super.handleMessage(msg);
 
             if(successFlag.contains("ACK") == true) {
-                Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(), "매칭을 시작했습니다. 대기해주세요.", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                it.putExtra("sep","quest");
+                startActivity(it);
+                finish();
+/*
                 Thread th = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -91,6 +92,7 @@ public class MapActivity extends FragmentActivity {
                     }
                 });
                 th.start();
+                */
 
                 //if(bResult) {
             }
@@ -170,7 +172,7 @@ public class MapActivity extends FragmentActivity {
             }
         });
 
-     //   myLocation.setText("인천광역시 부평구 산곡동");
+       // myLocation.setText("인천광역시 부평구 산곡동");
 
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,8 +40,12 @@ public class ChatActivity extends AppCompatActivity{
             super.handleMessage(msg);
 
             if(successFlag.contains("ACK") == true) {
-                Toast.makeText(getApplicationContext(), "Success..!!", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(), "매칭을 시작했습니다. 대기해주세요.", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                it.putExtra("sep","quest");
+                startActivity(it);
+                finish();
+/*
                 Thread th = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -77,7 +81,7 @@ public class ChatActivity extends AppCompatActivity{
                     }
                 });
                 th.start();
-
+*/
                 //if(bResult) {
             }
             else
