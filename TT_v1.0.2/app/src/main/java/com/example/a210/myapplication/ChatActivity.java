@@ -105,28 +105,6 @@ public class ChatActivity extends AppCompatActivity{
         Content = itGet.getStringExtra("Content");
 
         if(itGet.getStringExtra("sep").toString().equals("quest")) {
-            Thread th = new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    try {
-
-                        String urlString = getString(R.string.url_Server)+"/QuestionRegist.jsp?";
-                        urlString += "QUESTION_USER_ID=" + UserInfomation.User_ID;
-                        urlString += "&QUESTION_CONTENS=" + Content;
-                        urlString += "&QUESTION_AREA=" + UserInfomation.SearchArea;
-                        urlString += "&QUESTION_SUBJECT=" + UserInfomation.SearchSubJect;
-                        urlString += "&ISQUESTION=Y";
-
-                        successFlag = TomcatConnector(urlString);
-
-                    }catch (Exception e) {
-                        successFlag = "Fail";
-                    }
-                    handler.sendEmptyMessage(0);
-                }
-            });
-            th.start();
 
             } else if(itGet.getStringExtra("sep").toString().equals("dap")) {
 
